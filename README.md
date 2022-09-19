@@ -34,27 +34,27 @@
 ### 2. ERD 진행상황
 
 + ERD 설계 : 100%
- ~~  + USER~~
- ~~  + ITEM_CATEGORY~~
- ~~  + PHOTO_FILTER~~
- ~~  + STORE~~
- ~~  + ITEM~~
- ~~  + ADDITIONAL_ITEM~~
- ~~  + TAG_PHOTO~~
- ~~  + FOLLOW~~
- ~~  + CONTENT_OF_ITEM~~
- ~~  + PHOTO~~
- ~~  + CONTENT_OF_PHOTO~~
- ~~  + SCRAP_PHOTO~~
- ~~  + LIKED_PHOTO~~
- ~~  + SCRAP_ITEM~~
- ~~  + VIEW_PHOTO~~
- ~~  + REVIEW~~
- ~~  + COMMENT_PHOTO~~
- ~~  + ITEM_QUESTION~~
- ~~  + PURCHASE~~
- ~~  + SELLER_INFORMATION~~
- ~~  + QUESTION_TYPE~~
+   + USER
+   + ITEM_CATEGORY
+   + PHOTO_FILTER
+   + STORE
+   + ITEM
+   + ADDITIONAL_ITEM
+   + TAG_PHOTO
+   + FOLLOW
+   + CONTENT_OF_ITEM
+   + PHOTO
+   + CONTENT_OF_PHOTO
+   + SCRAP_PHOTO
+   + LIKED_PHOTO
+   + SCRAP_ITEM
+   + VIEW_PHOTO
+   + REVIEW
+   + COMMENT_PHOTO
+   + ITEM_QUESTION
+   + PURCHASE
+   + SELLER_INFORMATION
+   + QUESTION_TYPE
 
 + ERD 구현 : 100%
 
@@ -111,7 +111,7 @@
 
 + ERD 구현 : 100% (30/30)
 
-_day3는 day2에 대하여 ERD가 전체적으로 수정되었습니다_
+_day3는 day2에 대하여 ERD가 전면 추가 및 수정되었습니다_
 
 ### 3. API 리스트업 진행상황 : 20% (4/21)
 + POST /app/users/sign-up : 회원가입
