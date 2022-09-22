@@ -91,18 +91,18 @@ public class UserDao {
         return this.jdbcTemplate.update(modifyUserNameQuery,modifyUserNameParams);
     }
 
-    public User getPwd(PostLoginReq postLoginReq){
-        String getPwdQuery = "select userIdx, password,email,userName,ID from UserInfo where ID = ?";
-        String getPwdParams = postLoginReq.getId();
+    public User getUserInfo(PostLoginReq postLoginReq){
+        String getPwdQuery = "select USER_IDX, EMAIL, PASSWORD, NICKNAME, MEMBERSHIP_LEVEL, POINTS from USER where EMAIL = ?";
+        String getPwdParams = postLoginReq.getEMAIL();
 
         return this.jdbcTemplate.queryForObject(getPwdQuery,
                 (rs,rowNum)-> new User(
-                        rs.getInt("userIdx"),
-                        rs.getString("ID"),
-                        rs.getString("userName"),
-                        rs.getString("password"),
-                        rs.getString("email")
-                ),
+                        rs.getInt("USER_IDX"),
+                        rs.getString("EMAIL"),
+                        rs.getString("PASSWORD"),
+                        rs.getString("NICKNAME"),
+                        rs.getString("MEMBERSHIP_LEVEL"),
+                        rs.getInt("POINTS")),
                 getPwdParams
                 );
 

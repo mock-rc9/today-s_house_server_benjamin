@@ -79,23 +79,42 @@ public class UserProvider {
 
 
 
-    public PostLoginRes logIn(PostLoginReq postLoginReq) throws BaseException{
-        User user = userDao.getPwd(postLoginReq);
+    public PostLoginRes login(PostLoginReq postLoginReq) throws BaseException{
+        User user = userDao.getUserInfo(postLoginReq);
         String encryptPwd;
         try {
-            encryptPwd=new SHA256().encrypt(postLoginReq.getPassword());
+            encryptPwd=new SHA256().encrypt(postLoginReq.getPASSWORD());
         } catch (Exception ignored) {
-            throw new BaseException(PASSWORD_DECRYPTION_ERROR);
+            throw new BaseException(PASSWORD_ENCRYPTION_ERROR);
         }
 
-        if(user.getPassword().equals(encryptPwd)){
-            int userIdx = user.getUserIdx();
-            String jwt = jwtService.createJwt(userIdx);
-            return new PostLoginRes(userIdx,jwt);
-        }
-        else{
+        //가입하지 않은 회원
+        /* 
+        if(userDao.checkEmail(postLoginReq.getEMAIL()) == 0){
             throw new BaseException(FAILED_TO_LOGIN);
         }
+        */
+
+      
+        int valid = userDao.checkEmail(postLoginReq.getEMAIL());
+        if (valid == 1) {
+            if(user.getPASSWORD().equals(encryptPwd)){
+                int userIdx = user.getUSER_IDX();
+                String jwt = jwtService.createJwt(userIdx);
+                return new PostLoginRes(userIdx,jwt);
+            }
+            else{
+                throw new BaseException(FAILED_TO_LOGIN);
+            }
+
+        }
+        else {
+            throw new BaseException(FAILED_TO_LOGIN);
+         }
+        
+        
+
+        
 
     }
 

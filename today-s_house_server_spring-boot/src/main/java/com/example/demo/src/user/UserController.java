@@ -108,16 +108,22 @@ public class UserController {
     }
     /**
      * 로그인 API
-     * [POST] /users/logIn
+     * [POST] /users/login
      * @return BaseResponse<PostLoginRes>
      */
     @ResponseBody
-    @PostMapping("/logIn")
-    public BaseResponse<PostLoginRes> logIn(@RequestBody PostLoginReq postLoginReq){
+    @PostMapping("/login")
+    public BaseResponse<PostLoginRes> login(@RequestBody PostLoginReq postLoginReq){
+        if(postLoginReq.getEMAIL() == null){
+            return new BaseResponse<>(POST_USERS_EMPTY_EMAIL);
+        }
+        if(postLoginReq.getPASSWORD() == null){
+            return new BaseResponse<>(POST_USERS_EMPTY_PASSWORD);
+        }
         try{
             // TODO: 로그인 값들에 대한 형식적인 validatin 처리해주셔야합니다!
             // TODO: 유저의 status ex) 비활성화된 유저, 탈퇴한 유저 등을 관리해주고 있다면 해당 부분에 대한 validation 처리도 해주셔야합니다.
-            PostLoginRes postLoginRes = userProvider.logIn(postLoginReq);
+            PostLoginRes postLoginRes = userProvider.login(postLoginReq);
             return new BaseResponse<>(postLoginRes);
         } catch (BaseException exception){
             return new BaseResponse<>(exception.getStatus());
@@ -140,8 +146,8 @@ public class UserController {
                 return new BaseResponse<>(INVALID_USER_JWT);
             }
             //같다면 유저네임 변경
-            PatchUserReq patchUserReq = new PatchUserReq(userIdx,user.getUserName());
-            userService.modifyUserName(patchUserReq);
+            //PatchUserReq patchUserReq = new PatchUserReq(userIdx,user.getUserName());
+            //userService.modifyUserName(patchUserReq);
 
             String result = "";
         return new BaseResponse<>(result);

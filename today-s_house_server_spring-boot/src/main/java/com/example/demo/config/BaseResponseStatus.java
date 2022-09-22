@@ -25,20 +25,13 @@ public enum BaseResponseStatus {
     // users
     USERS_EMPTY_USER_ID(false, 2010, "유저 아이디 값을 확인해주세요."),
 
-    // [POST] /users/sign-up
+    // [POST] /users/sign-up && [POST] /users/login
     POST_USERS_EMPTY_EMAIL(false, 2015, "이메일을 입력해주세요."),
-    POST_USERS_INVALID_EMAIL(false, 2016, "이메일 형식을 확인해주세요."),
-    POST_USERS_EXISTS_EMAIL(false,2017,"중복된 이메일입니다."),
+    POST_USERS_EMPTY_PASSWORD(false, 2016, "비밀번호를 입력해주세요."),
+    POST_USERS_EMPTY_NICKNAME(false, 2017, "닉네임을 입력해주세요."),
+    
 
-    POST_USERS_EMPTY_PASSWORD(false, 2018, "비밀번호를 입력해주세요."),
 
-    POST_USERS_EMPTY_NICKNAME(false, 2019, "닉네임을 입력해주세요."),
-    POST_USERS_EXISTS_NICKNAME(false,2020,"중복된 닉네임입니다."),
-
-    CHECK_EXISTS_EMAIL(false, 2021, "중복된 이메일인지 체크하는데 실패하였습니다."),
-    CHECK_EXISTS_NICKNAME(false, 2022, "중복된 닉네임인지 체크하는데 실패하였습니다."),
-
-    CREATE_USER_ERROR(false, 2023, "유저를 생성하는데 실패하였습니다."),
 
     
     /**
@@ -47,8 +40,12 @@ public enum BaseResponseStatus {
     // Common
     RESPONSE_ERROR(false, 3000, "값을 불러오는데 실패하였습니다."),
 
-    // [POST] /users
-    DUPLICATED_EMAIL(false, 3013, "중복된 이메일입니다."),
+    // [POST] /users/sign-up
+    POST_USERS_EXISTS_EMAIL(false,3001,"중복된 이메일입니다."),
+    POST_USERS_EXISTS_NICKNAME(false,3002,"중복된 닉네임입니다."),
+    CREATE_USER_ERROR(false, 3003, "유저를 생성하는데 실패하였습니다."),
+
+    // [POST] /users/login
     FAILED_TO_LOGIN(false,3014,"없는 아이디거나 비밀번호가 틀렸습니다."),
 
 
@@ -58,6 +55,11 @@ public enum BaseResponseStatus {
      */
     DATABASE_ERROR(false, 4000, "데이터베이스 연결에 실패하였습니다."),
     SERVER_ERROR(false, 4001, "서버와의 연결에 실패하였습니다."),
+
+    // [POST] /users/sign-up
+    CHECK_EXISTS_EMAIL(false, 4002, "중복된 이메일인지 체크하는데 실패하였습니다."),
+    CHECK_EXISTS_NICKNAME(false, 4003, "중복된 닉네임인지 체크하는데 실패하였습니다."),
+    
 
     //[PATCH] /users/{userIdx}
     MODIFY_FAIL_USERNAME(false,4014,"유저네임 수정 실패"),
