@@ -385,3 +385,62 @@ _해당 내용은 day3과 동일_
 2. 클라이언트 개발자에게 물어봤을 때 사용자가 값을 쓰지않으면 null로 보낸다고 하였지만, 요청이 꼭 클라이언트에게서만 오지는 않으므로 보안을 위해 빈값("")도 validation 처리
 
 3. 합의하에 서버쪽에서 예외처리 반환값도 정상처리 반환값과 동일하게 4개(isSuccess,message,code,result)로 구성하여 반환하기로 결정
+
+-----
+
+## day7 dev log (22.09.23)
+
+### 1. 기획서의 변동사항
+
+### 2. ERD 진행상황
++ ERD 설계 : ??% (30/??)
++ ERD 구현 : ??% (30/??)
+_day4 dev log의 1에따라 수정진행중_
+
+### 3. API 리스트업 진행상황 : 100% (15/15)
++ POST /app/users/sign-up : 회원가입
++ POST /app/users/login : 로그인
++ GET /app/stores/home : 스토어 홈
++ GET /app/stores/item : 상품정보 불러오기
++ GET /app/stores/item/purchase : 상품 구매하기
++ GET /app/stores/item/payment : 주문/결제
++ POST /app/stores/item/add/basket : 장바구니 추가
++ GET /app/stores/item/basket/:user-idx : 담겨있는 장바구니
++ POST /app/stores/item/review : 리뷰쓰기
++ POST /app/stores/item/scrap : 상품 스크랩
++ GET /app/users/mypage/:user-idx : 마이페이지
++ GET /app/stores/category : 상단 햄버거메뉴
++ POST /app/users/follow : 팔로우
++ POST /app/users/social-login : 소셜로그인
++ GET /app/home : 메인 홈
+
+### 4. 현재 개발중인 API 
++ 스토어 홈
+
+### 5. 개발 완료 API
++ 회원가입 (validation 완료)
++ 로그인 (validation 완료)
+
+### 6. 더미데이터 진행 상황 : 10%
+
+### 7. prod서버 구축 진행 상황 : 100%
+
+### 8. 클라이언트 개발자와의 회의에 따른 회의록
+
+### 9. 개발팀장님의 피드백(1차, 2차)
+#### 2차 피드백 (22.09.28 22:30)
+
+### 10. 개발 도중에 발생하는 이슈
+#### issue 및 알게된 내용(studied)
+1. [studied] validation처리를 하느라, if-else문을 사용하였는데 반환값의 타입이 맞지않다는 오류가 떴다. else에 예외처리 반환에러메시지를 보내더라도, if문은 해당 메소드에 적합한 반환값으로 꼭 짜야한다
+
+2. [studied] 쿼리문 'select exists (~~)'는 해당값이 존재하는지 하지않는지 여부만 알려주는 쿼리문이며, 반환값이 true false이다. 해당 코드에서는 true == 1, false == 0으로 처리된다
+
+3. [error] 로그인API의 다른 기능은 정상적인데, 요청받은 이메일이 존재하는지 확인 후 존재하지않는 상황(비회원)에대한 예외처리에대한 테스트에서 500에러가 났다
+터미널의 로그를 확인해보니, 이러했다. `Incorrect result size : expected 1, actual 0` 
+
+#### 원인 
+3. 보통 500에러는 Dao에서 문제가 있었기에 확인해보았다. 요청받은 이메일에 대한 정보로 'queryForObject'를 사용하여 객체를 생성하는데, 존재하지않는 이메일이라 모든값이 null이었기에 객체가 생성되지않는게 문제였다
+
+#### 해결
+3. 코드의 순서에 문제가 있었기에, Dao의 해당 메소드를 사용하는 Provider애 있는 userDao.getUserInfo의 순서를 변경하였다 (이메일이 존재할 때 객체를 생성하도록, if문내로 이동)
