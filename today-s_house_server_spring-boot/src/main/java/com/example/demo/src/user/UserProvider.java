@@ -85,7 +85,7 @@ public class UserProvider {
         try {
             encryptPwd=new SHA256().encrypt(postLoginReq.getPASSWORD());
         } catch (Exception ignored) {
-            throw new BaseException(PASSWORD_ENCRYPTION_ERROR);
+            throw new BaseException(PASSWORD_ENCRYPTION_ERROR); 
         }
 
         //가입하지 않은 회원
@@ -94,8 +94,7 @@ public class UserProvider {
             throw new BaseException(FAILED_TO_LOGIN);
         }
         */
-
-      
+        
         int valid = userDao.checkEmail(postLoginReq.getEMAIL());
         if (valid == 1) {
             if(user.getPASSWORD().equals(encryptPwd)){
@@ -106,11 +105,10 @@ public class UserProvider {
             else{
                 throw new BaseException(FAILED_TO_LOGIN);
             }
-
         }
-        else {
-            throw new BaseException(FAILED_TO_LOGIN);
-         }
+        else {throw new BaseException(FAILED_TO_LOGIN);  }
+             
+        
         
         
 

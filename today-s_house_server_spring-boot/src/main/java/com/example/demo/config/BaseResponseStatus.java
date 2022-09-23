@@ -46,7 +46,7 @@ public enum BaseResponseStatus {
     CREATE_USER_ERROR(false, 3003, "유저를 생성하는데 실패하였습니다."),
 
     // [POST] /users/login
-    FAILED_TO_LOGIN(false,3014,"없는 아이디거나 비밀번호가 틀렸습니다."),
+    FAILED_TO_LOGIN(false,3004,"없는 아이디거나 비밀번호가 틀렸습니다."),
 
 
 
