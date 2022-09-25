@@ -481,3 +481,65 @@ _day7의 내용과 동일_
 ### 10. 개발 도중에 발생하는 이슈
 #### issue 
 
+-----
+
+## day9 dev log (22.09.25)
+
+### 1. 기획서의 변동사항
+
+### 2. ERD 진행상황
++ ERD 설계 : 100% (25/25)
++ ERD 구현 : 100% (25/25)
+_day4 dev log의 1에따라 수정됨_
+   + QUESTION
+   + ITEM_QUESTION
+   + QUESTION_TYPE
+   + REVIEW
+   + PURCHASE
+   + USER
+   + USER_NOTIFICATION
+   + STORE_ADVERTISEMENT
+   + STORE
+   + ITEM
+   + AUTO_PLAY
+   + FOLLOW
+   + CONTENT_OF_ITEM
+   + SCRAP_ITEM
+   + NOTIFICATION_SETTING
+   + ITEM_LARGE_CATEGORY
+   + ITEM_MEDIUM_CATEGORY
+   + ITEM_SMALL_CATEGORY
+   + ITEM_DETAIL_CATEGORY
+   + SELLER_INFORMATION
+   + DISCOUNT_COUPON
+   + CONTENT_ORGANIZATION_OF_ITEM
+   + AVAILABLE_COUPON
+   + ITEM_COLOR
+   + ITEM_ADDITIONAL
+
+### 3. API 리스트업 진행상황 : 100% (15/15)
+_day7의 내용과 동일_
+
+### 4. 현재 개발중인 API 
++ 스토어 홈
+
+### 5. 개발 완료 API
++ 회원가입 (validation 완료)
++ 로그인 (validation 완료)
+
+### 6. 더미데이터 진행 상황 : 20%
+_카테고리의 더미데이터가 중요_
++ 대분류 카테고리 (100%)
++ 중분류 카테고리 : 가구,패브릭,조명 진행완료 (19%)
+
+### 7. prod서버 구축 진행 상황 : 100%
+
+### 8. 클라이언트 개발자와의 회의에 따른 회의록
++ 상품관련 정보는 한번에 다 넘기면, 클라이언트에서 '최근 본 상품', '인기상품'.. 나누어서 처리
+
+### 9. 개발팀장님의 피드백(1차, 2차)
+#### 2차 피드백 (22.09.28 22:30)
+
+### 10. 개발 도중에 발생하는 이슈
+#### issue 
+
