@@ -1,0 +1,59 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "gradle",
+			"id": "/Users/yuja/Desktop/dev/today-s_house/today-s_house_server_spring-bootpropertiesdemo",
+			"script": "properties",
+			"description": "Displays the properties of root project 'demo'.",
+			"group": "help",
+			"project": "demo",
+			"buildFile": "/Users/yuja/Desktop/dev/today-s_house/today-s_house_server_spring-boot/build.gradle",
+			"rootProject": "demo",
+			"projectFolder": "/Users/yuja/Desktop/dev/today-s_house/today-s_house_server_spring-boot",
+			"workspaceFolder": "/Users/yuja/Desktop/dev/today-s_house/today-s_house_server_spring-boot",
+			"args": "",
+			"javaDebug": false,
+			"problemMatcher": [
+				"$gradle"
+			],
+			"label": "gradle: properties"
+		},
+		{
+			"type": "gradle",
+			"id": "/Users/yuja/Desktop/dev/today-s_house/today-s_house_server_spring-bootdependenciesdemo",
+			"script": "dependencies",
+			"description": "Displays all dependencies declared in root project 'demo'.",
+			"group": "help",
+			"project": "demo",
+			"buildFile": "/Users/yuja/Desktop/dev/today-s_house/today-s_house_server_spring-boot/build.gradle",
+			"rootProject": "demo",
+			"projectFolder": "/Users/yuja/Desktop/dev/today-s_house/today-s_house_server_spring-boot",
+			"workspaceFolder": "/Users/yuja/Desktop/dev/today-s_house/today-s_house_server_spring-boot",
+			"args": "",
+			"javaDebug": false,
+			"problemMatcher": [
+				"$gradle"
+			],
+			"label": "gradle: dependencies"
+		},
+		{
+			"type": "gradle",
+			"id": "/Users/yuja/Desktop/dev/today-s_house/today-s_house_server_spring-bootdependencyManagementdemo",
+			"script": "dependencyManagement",
+			"description": "Displays the dependency management declared in root project 'demo'.",
+			"group": "help",
+			"project": "demo",
+			"buildFile": "/Users/yuja/Desktop/dev/today-s_house/today-s_house_server_spring-boot/build.gradle",
+			"rootProject": "demo",
+			"projectFolder": "/Users/yuja/Desktop/dev/today-s_house/today-s_house_server_spring-boot",
+			"workspaceFolder": "/Users/yuja/Desktop/dev/today-s_house/today-s_house_server_spring-boot",
+			"args": "",
+			"javaDebug": false,
+			"problemMatcher": [
+				"$gradle"
+			],
+			"label": "gradle: dependencyManagement"
+		}
+	]
+}

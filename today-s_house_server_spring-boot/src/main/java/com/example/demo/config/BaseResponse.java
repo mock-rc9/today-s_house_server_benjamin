@@ -6,7 +6,8 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
-import static com.example.demo.config.BaseResponseStatus.SUCCESS;
+//import static com.example.demo.config.BaseResponseStatus.SUCCESS;
+import com.example.demo.config.BaseResponseStatus; 
 
 @Getter
 @AllArgsConstructor
@@ -19,19 +20,12 @@ public class BaseResponse<T> {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private T result;
 
-    // 요청에 성공한 경우
-    public BaseResponse(T result) {
-        this.isSuccess = SUCCESS.isSuccess();
-        this.message = SUCCESS.getMessage();
-        this.code = SUCCESS.getCode();
-        this.result = result;
-    }
-
-    // 요청에 실패한 경우
-    public BaseResponse(BaseResponseStatus status) {
+    public BaseResponse(BaseResponseStatus status, T result) {
         this.isSuccess = status.isSuccess();
         this.message = status.getMessage();
         this.code = status.getCode();
+        this.result = result;
     }
 }
+
 

@@ -4,6 +4,10 @@ server:
 spring:
   application:
     name: demo
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
 
   datasource:
     platform: mysql
@@ -12,3 +16,15 @@ spring:
     password: benjaminusesaws^^77 # 변경해주세요
     driver-class-name: com.mysql.cj.jdbc.Driver # mysql 8버전
     # driver-class-name: com.mysql.jdbc.Driver # mysql 5버전
+
+cloud:
+  aws:
+    credentials:
+      access-key: AKIAT5PZU2X6AU2MFEFL #{your access-key}
+      secret-key: dLwKbfl6bORxckPzrH0CJb75Aoww79ndD7sfr9vI #{your secret-key}
+    region:
+      static: ap-northeast-2 # 리전 정보(서울)
+    stack:
+      auto: false
+    s3:
+      bucket : ben-today-s-house

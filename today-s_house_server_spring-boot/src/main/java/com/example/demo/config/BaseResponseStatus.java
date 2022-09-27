@@ -20,7 +20,7 @@ public enum BaseResponseStatus {
     REQUEST_ERROR(false, 2000, "입력값을 확인해주세요."),
     EMPTY_JWT(false, 2001, "JWT를 입력해주세요."),
     INVALID_JWT(false, 2002, "유효하지 않은 JWT입니다."),
-    INVALID_USER_JWT(false,2003,"권한이 없는 유저의 접근입니다."),
+    INVALID_USER_JWT(false,2003,"권한이 없는 유저의 접근입니다." ),
 
     // users
     USERS_EMPTY_USER_ID(false, 2010, "유저 아이디 값을 확인해주세요."),
@@ -41,12 +41,12 @@ public enum BaseResponseStatus {
     RESPONSE_ERROR(false, 3000, "값을 불러오는데 실패하였습니다."),
 
     // [POST] /users/sign-up
-    POST_USERS_EXISTS_EMAIL(false,3001,"중복된 이메일입니다."),
+    POST_USERS_EXISTS_EMAIL(false,3001,"중복된 이메일입니다." ),
     POST_USERS_EXISTS_NICKNAME(false,3002,"중복된 닉네임입니다."),
     CREATE_USER_ERROR(false, 3003, "유저를 생성하는데 실패하였습니다."),
 
     // [POST] /users/login
-    FAILED_TO_LOGIN(false,3004,"없는 아이디거나 비밀번호가 틀렸습니다."),
+    FAILED_TO_LOGIN(false,3004,"아이디 또는 비밀번호가 잘못되었습니다."),
 
 
 
@@ -65,8 +65,11 @@ public enum BaseResponseStatus {
     MODIFY_FAIL_USERNAME(false,4014,"유저네임 수정 실패"),
 
     PASSWORD_ENCRYPTION_ERROR(false, 4011, "비밀번호 암호화에 실패하였습니다."),
-    PASSWORD_DECRYPTION_ERROR(false, 4012, "비밀번호 복호화에 실패하였습니다.");
+    PASSWORD_DECRYPTION_ERROR(false, 4012, "비밀번호 복호화에 실패하였습니다."),
 
+    FILE_UPLOAD_FAIL(false,4013,"파일 업로드에 실패하였습니다"),
+    FILE_DELETE_FAIL(false,4014,"파일 삭제에 실패하였습니다"),
+    WRONG_FORMAT_ERROR(false,4015,"잘못된 형식의 파일입니다.");
 
     // 5000 : 필요시 만들어서 쓰세요
     // 6000 : 필요시 만들어서 쓰세요
@@ -74,11 +77,12 @@ public enum BaseResponseStatus {
 
     private final boolean isSuccess;
     private final int code;
-    private final String message;
+    private final String message; 
 
     private BaseResponseStatus(boolean isSuccess, int code, String message) {
         this.isSuccess = isSuccess;
         this.code = code;
         this.message = message;
+
     }
 }

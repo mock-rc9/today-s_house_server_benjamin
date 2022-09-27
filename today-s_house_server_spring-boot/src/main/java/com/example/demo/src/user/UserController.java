@@ -50,13 +50,13 @@ public class UserController {
         try{
             if(Email == null){
                 List<GetUserRes> getUsersRes = userProvider.getUsers();
-                return new BaseResponse<>(getUsersRes);
+                return new BaseResponse<>(SUCCESS ,getUsersRes);
             }
             // Get Users
             List<GetUserRes> getUsersRes = userProvider.getUsersByEmail(Email);
-            return new BaseResponse<>(getUsersRes);
+            return new BaseResponse<>( SUCCESS,getUsersRes);
         } catch(BaseException exception){
-            return new BaseResponse<>((exception.getStatus()));
+            return new BaseResponse<>((exception.getStatus()), null);
         }
     }
 
@@ -72,9 +72,9 @@ public class UserController {
         // Get Users
         try{
             GetUserRes getUserRes = userProvider.getUser(userIdx);
-            return new BaseResponse<>(getUserRes);
+            return new BaseResponse<>(SUCCESS, getUserRes);
         } catch(BaseException exception){
-            return new BaseResponse<>((exception.getStatus()));
+            return new BaseResponse<>((exception.getStatus()), null);
         }
 
     }
@@ -90,20 +90,20 @@ public class UserController {
     public BaseResponse<PostUserRes> createUser(@RequestBody PostUserReq postUserReq) {
         // TODO: email 관련한 짧은 validation 예시입니다. 그 외 더 부가적으로 추가해주세요!
         if(postUserReq.getEMAIL() == null || postUserReq.getEMAIL() == ""){
-            return new BaseResponse<>(POST_USERS_EMPTY_EMAIL);
+            return new BaseResponse<>(POST_USERS_EMPTY_EMAIL, new PostUserRes("",0));
         }
         if(postUserReq.getPASSWORD() == null || postUserReq.getPASSWORD() == ""){
-            return new BaseResponse<>(POST_USERS_EMPTY_PASSWORD);
+            return new BaseResponse<>(POST_USERS_EMPTY_PASSWORD,new PostUserRes("",0));
         }
         if(postUserReq.getNICKNAME() == null || postUserReq.getNICKNAME() == ""){
-            return new BaseResponse<>(POST_USERS_EMPTY_NICKNAME);
+            return new BaseResponse<>(POST_USERS_EMPTY_NICKNAME,new PostUserRes("",0));
         }
         
         try{
             PostUserRes postUserRes = userService.createUser(postUserReq);
-            return new BaseResponse<>(postUserRes);
+            return new BaseResponse<>(SUCCESS, postUserRes);
         } catch(BaseException exception){
-            return new BaseResponse<>((exception.getStatus()));
+            return new BaseResponse<>((exception.getStatus()), new PostUserRes("",0));
         }
     }
     /**
@@ -114,19 +114,20 @@ public class UserController {
     @ResponseBody
     @PostMapping("/login")
     public BaseResponse<PostLoginRes> login(@RequestBody PostLoginReq postLoginReq){
-        if(postLoginReq.getEMAIL() == null){
-            return new BaseResponse<>(POST_USERS_EMPTY_EMAIL);
+        if(postLoginReq.getEMAIL() == null || postLoginReq.getEMAIL() == ""){
+            return new BaseResponse<>(POST_USERS_EMPTY_EMAIL, new PostLoginRes(0,""));
         }
-        if(postLoginReq.getPASSWORD() == null){
-            return new BaseResponse<>(POST_USERS_EMPTY_PASSWORD);
+        if(postLoginReq.getPASSWORD() == null || postLoginReq.getPASSWORD() == ""){
+            return new BaseResponse<>(POST_USERS_EMPTY_PASSWORD, new PostLoginRes(0,""));
         }
         try{
+
             // TODO: 로그인 값들에 대한 형식적인 validatin 처리해주셔야합니다!
             // TODO: 유저의 status ex) 비활성화된 유저, 탈퇴한 유저 등을 관리해주고 있다면 해당 부분에 대한 validation 처리도 해주셔야합니다.
             PostLoginRes postLoginRes = userProvider.login(postLoginReq);
-            return new BaseResponse<>(postLoginRes);
+            return new BaseResponse<>(SUCCESS, postLoginRes);
         } catch (BaseException exception){
-            return new BaseResponse<>(exception.getStatus());
+            return new BaseResponse<>((exception.getStatus()), new PostLoginRes(0,""));
         }
     }
 
@@ -143,16 +144,16 @@ public class UserController {
             int userIdxByJwt = jwtService.getUserIdx();
             //userIdx와 접근한 유저가 같은지 확인
             if(userIdx != userIdxByJwt){
-                return new BaseResponse<>(INVALID_USER_JWT);
+                return new BaseResponse<>(INVALID_USER_JWT,null);
             }
             //같다면 유저네임 변경
             //PatchUserReq patchUserReq = new PatchUserReq(userIdx,user.getUserName());
             //userService.modifyUserName(patchUserReq);
 
             String result = "";
-        return new BaseResponse<>(result);
+            return new BaseResponse<>(SUCCESS ,result);
         } catch (BaseException exception) {
-            return new BaseResponse<>((exception.getStatus()));
+            return new BaseResponse<>((exception.getStatus()), null);
         }
     }
 

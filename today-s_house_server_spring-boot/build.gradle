@@ -23,8 +23,8 @@ repositories {
 }
 
 dependencies {
-    implementation 'org.jetbrains:annotations:19.0.0'
 
+    implementation('org.jetbrains:annotations:19.0.0')
 
     // Spring Boot Starter
     testImplementation ('org.springframework.boot:spring-boot-starter-test')
@@ -40,8 +40,6 @@ dependencies {
     implementation ('org.springframework.boot:spring-boot-starter-jdbc')
     compile('org.springframework.boot:spring-boot-starter-data-jpa') //mysql 5버전의 경우 삭제.
 
-
-
     // Web
     implementation ('org.springframework.boot:spring-boot-starter-web')
 
@@ -53,10 +51,11 @@ dependencies {
     implementation('org.springframework.boot:spring-boot-starter')
     compile('org.springframework.boot:spring-boot-starter-web')
 
-
-
-
-
+    //aws
+    implementation('org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE') //S3이용시 추가 Spring cloud starter aws
+    implementation platform('com.amazonaws:aws-java-sdk-bom:1.12.310')
+    implementation('com.amazonaws:aws-java-sdk-s3:1.12.310')
+    
 }
 
 test {
