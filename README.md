@@ -577,3 +577,107 @@ _day7의 내용과 동일_
 ### 10. 개발 도중에 발생하는 이슈
 #### issue 
 
+-----
+
+# day11 dev log (22.09.27)
+
+### 1. 기획서의 변동사항(클라이언트와 협의한 내용만 작성 / 시간상 필수적인 기능 위주로)
++ 오늘의집 이미지 스플래시 -> 클라이언트에서만 진행
++ 이메일 회원가입
++ 이메일 로그인
++ 스토어 홈
++ 상품 상세정보 (배송카테고리, 스크랩 수, 관련쿠폰정보)
++ 스토어 홈 광고불러오기
++ 상품 구매하기
++ 상품 문의
++ 상품 판매자정보 불러오기
++ 상품 리뷰 불러오기
++ 사용자관련 주문/결제
++ 개별상품관련 주문/결제
++ 주문/결제의 주문자 수정
++ 장바구니 추가
++ 담겨있는 장바구니
++ 리뷰쓰기
++ 상품 스크랩
++ 마이페이지
++ 상단 햄버거 메뉴
++ 팔로우
++ 소셜 로그인
++ 메인 홈
+
+**클라이언트에서 API연동은 하지않지만, 개발할 API목록도 있음**
+
+_이전에 비해 기능이 세분화 됨_
+
+### 2. ERD 진행상황
++ ERD 설계 : 100% (26/26)
++ ERD 구현 : 100% (26/26)
+
+_기능세분화에따라 수정됨_
++ QUESTION
++ QUESTION_TYPE
++ REVIEW
++ PURCHASE
++ USER
++ USER_NOTIFICATION
++ STORE_ADVERTISEMENT
++ STORE
++ ITEM
++ AUTO_PLAY
++ FOLLOW
++ CONTENT_OF_ITEM
++ SCRAP_ITEM
++ NOTIFICATION_SETTING
++ ITEM_LARGE_CATEGORY
++ ITEM_MEDIUM_CATEGORY
++ ITEM_SMALL_CATEGORY
++ ITEM_DETAIL_CATEGORY
++ SELLER_INFORMATION
++ DISCOUNT_COUPON
++ CONTENT_ORGANIZATION_OF_ITEM
++ AVAILABLE_COUPON
++ ITEM_COLOR
++ ITEM_ADDITIONAL
++ SHIPPING_ADDRESS_LIST
++ SHIPPING_CATEGORY
+
+_배송지 목록 관련하여 추가 (+2)_
+_문의 ID와 사용자 일련번호 JOIN한 테이블 삭제 : 전체문의 테이블(QUESTION)에 사용자 일련번호 표현 (-1)_
+
+### 3. API 리스트업 진행상황 : 100% (21/21)
+_개발작업하며 수정 예정_ 
+
+### 4. 현재 개발중인 API 
+
+### 5. 개발 완료 API
++ 회원가입 
++ 로그인
++ 스토어 홈
+
+### 6. 더미데이터 진행 상황 : 50%
+_카테고리 더미데이터 복잡함_
++ 대분류 카테고리 100%
++ 중분류 카테고리 : 40%
++ 소분류 카테고리 : 20%
+
+_이외 클라이언트에 보이는 중요한 더미데이터(실제같은 데이터)는 신경써서 진행중_
+
+### 7. prod서버 구축 진행 상황 : 100%
+
+### 8. S3서버 구축 진행 상황 : 92%
++ 구축 및 셋팅 : 완료
++ spring boot와 연결 : 완료 
++ 기능 test필요
+
+### 9. 개발팀장님의 피드백(1차, 2차)
+#### 2차 피드백 (22.09.28 22:30)
+
+### 10. 개발 도중에 발생하는 이슈
+#### issue 
+1. 이미지서버를 따로 관리하기위해 S3서버를 구축하고, 스프링부트와 연동하는과정에서 에러가 발생 : 사용할 코드파일(S3관련 controller, service)을 생성하는 과정에서 `import com.amazonaws~`에서 에러발생 : com.amazonaws에 빨간밑줄(패키지가 없다는 에러)
+
+### 원인
+1. build.gradle파일에 `implementation('org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE')`을 하는데, 찾아보니 vscode의 스프링부트 코드내 의존성 패키지에 리스트업이 되지 않았음
+
+### 해결
+1. ~/.gradle/caches 파일의 내용을 다 지우고, build.gradle파일을 reload했더니 의존성 리스트에 관련 목록이 생성됨 : reload하면 캐시가 다시 생성되면서 필요한것들이 잘 받아지는것으로 보임 
