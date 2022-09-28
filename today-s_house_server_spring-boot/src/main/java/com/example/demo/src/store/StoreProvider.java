@@ -74,6 +74,52 @@ public class StoreProvider {
         }
     }
 
+    public GetSellerInfoRes getSellerInfo(int itemId) throws BaseException {
+        try {
+            GetSellerInfoRes getSellerInfoRes = storeDao.getSellerInfo(itemId);
+            return getSellerInfoRes;
+        } catch (Exception exception) {
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+    public List<GetInquiryRes> getInquiry(int itemId) throws BaseException {
+        try {
+            List<GetInquiryRes> getInquiryRes = storeDao.getInquiry(itemId);
+            return getInquiryRes;
+        } catch (Exception exception) {
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+    public List<GetPurchaseRes> getPurchase(int itemId) throws BaseException {
+        try {
+            List<GetPurchaseRes> getPurchaseRes = storeDao.getPurchase(itemId);
+            return getPurchaseRes;
+        } catch (Exception exception) {
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+    public GetUserPaymentRes getUserPayment(int userIdx) throws BaseException {
+        try {
+            GetUserPaymentRes getUserPaymentRes = storeDao.getUserPayment(userIdx);
+            return getUserPaymentRes;
+        } catch (Exception exception) {
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+    public GetItemPaymentRes getItemPayment(int itemId) throws BaseException {
+        try {
+            GetItemPaymentRes getItemPaymentRes = storeDao.getItemPayment(itemId);
+            return getItemPaymentRes;
+        } catch (Exception exception) {
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+    
+
     /* 
     public int checkEmail(String email) throws BaseException{
         try{

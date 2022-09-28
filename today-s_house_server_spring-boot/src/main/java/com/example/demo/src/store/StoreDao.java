@@ -1,5 +1,5 @@
 package com.example.demo.src.store;
-
+import java.lang.*;
 
 import com.example.demo.config.BaseResponse;
 import com.example.demo.src.store.model.*;
@@ -71,16 +71,84 @@ public class StoreDao {
     }
 
     public List<GetReviewRes> getReview(int itemId) {
-        String getReviewQuery = "select (select NICKNAME from USER as u where u.USER_IDX = r.USER_IDX), STAR_RATING, (select NAME as optional from ITEM_COLOR as c where c.ID = r.COLOR_ID), CREATED_AT, CONTENTS from REVIEW as r where ITEM_ID = ?";
+        String getReviewQuery = "select (select NICKNAME from USER as u where u.USER_IDX = r.USER_IDX) as nickname , STAR_RATING as starRating, CREATED_AT as createdDate, (select NAME from ITEM_COLOR as c where c.ID = r.COLOR_ID) as optional, CONTENTS as writing from REVIEW as r where ITEM_ID = ?";
         return this.jdbcTemplate.query(getReviewQuery,
                 (rs, rowNum) -> new GetReviewRes(
                     rs.getString("nickname"),
                     rs.getInt("starRating"),
-                    //rs.getDate("createdDate").toLocalDate(), //문제다문제
                     rs.getTimestamp("createdDate"),
                     rs.getString("optional"), //DB -color
                     rs.getString("writing")),
                 itemId);
+                
+    }
+
+    public GetSellerInfoRes getSellerInfo(int itemId) {
+        String getSellerInfoQuery = "select NAME as name, HEADER as header, ADDRESS as address, CUSTOMER_SERVICE_NUMBER as customerServiceNumber , EMAIL as email, COMPANY_REGISTRATION_NUMBER as companyRegistrationNumber from SELLER_INFORMATION where ID = ?";
+        return this.jdbcTemplate.queryForObject(getSellerInfoQuery,
+                (rs, rowNum) -> new GetSellerInfoRes(
+                    rs.getString("name"),
+                    rs.getString("header"),
+                    rs.getString("address"),
+                    rs.getString("customerServiceNumber"), 
+                    rs.getString("email"),
+                    rs.getString("companyRegistrationNumber")),
+                itemId);
+                
+    }
+
+    public List<GetInquiryRes> getInquiry(int itemId) {
+        String getInquiryQuery = "SELECT (select NICKNAME from USER as u where u.USER_IDX = q.USER_IDX) as nickname, CREATED_AT as createdDate, QUESTION as question, ANSWER as answer, PROGRESS, SECRET, (select NAME from QUESTION_TYPE as qt where qt.ID = q.TYPE_ID ) as type from QUESTION as q where ITEM_ID = ?";
+        return this.jdbcTemplate.query(getInquiryQuery,
+                (rs, rowNum) -> new GetInquiryRes(
+                    rs.getString("nickname"),
+                    rs.getTimestamp("createdDate"),
+                    rs.getString("question"), 
+                    rs.getString("answer"),
+                    rs.getInt("progress"),
+                    rs.getInt("secret"),
+                    rs.getString("type")),
+                itemId);
+                
+    }
+
+    public List<GetPurchaseRes> getPurchase(int itemId) {
+        String getPruchaseQuery = "select NAME as optional, null additional, null addPrice from ITEM_COLOR where ITEM_ID= ? union all select null optional, NAME as addtional,PRICE as addPrice from ITEM_ADDITIONAL where ITEM_ID = ?";
+        return this.jdbcTemplate.query(getPruchaseQuery,
+                (rs, rowNum) -> new GetPurchaseRes(
+                    rs.getString("optional"),
+                    rs.getString("additional"),
+                    rs.getInt("addPrice")),
+                itemId,itemId);
+                
+    }
+
+    public GetUserPaymentRes getUserPayment(int userIdx) {
+        String getUserPaymentQuery = "select s.TITLE as title, s.ADDRESS as address, s.RECIPIENT as recipient , s.PHONE_NUMBER as phoneNumber, u.NICKNAME as ordererNickname, u.EMAIL as ordererEmail, u.PHONE_NUMBER as ordererPhone, u.POINTS as points FROM SHIPPING_ADDRESS_LIST as s JOIN USER as u ON s.USER_IDX=u.USER_IDX where u.USER_IDX=? and s.BASIC=?";
+        return this.jdbcTemplate.queryForObject(getUserPaymentQuery,
+                (rs, rowNum) -> new GetUserPaymentRes(
+                    rs.getString("title"),
+                    rs.getString("address"),
+                    rs.getString("recipient"),
+                    rs.getString("phoneNumber"), 
+                    rs.getString("ordererNickname"),
+                    rs.getString("ordererEmail"),
+                    rs.getString("ordererPhone"),
+                    rs.getInt("points")),
+                userIdx,1);
+    }
+
+    public GetItemPaymentRes getItemPayment(int itemId) {
+        String getItemPaymentQuery = "select (select s.NAME from SELLER_INFORMATION as s where i.SELLER_INFO_ID = s.ID) as companyName, i.DELIVERY_FEE as deliveryFee, i.NAME as itemName, d.NAME as couponName, d.BASE_PRICE as basePriceCondition, d.EXPIRATION_PERIOD as expDate from ITEM as i, DISCOUNT_COUPON as d where i.ID = ? and d.ID = (select COUPON_ID from AVAILABLE_COUPON where ITEM_ID =?);";
+        return this.jdbcTemplate.queryForObject(getItemPaymentQuery,
+                (rs, rowNum) -> new GetItemPaymentRes(
+                    rs.getString("companyName"),
+                    rs.getInt("deliveryFee"),
+                    rs.getString("itemName"),
+                    rs.getString("couponName"), 
+                    rs.getInt("basePriceCondition"),
+                    rs.getTimestamp("expDate")),
+                itemId, itemId);
     }
     
     /* 

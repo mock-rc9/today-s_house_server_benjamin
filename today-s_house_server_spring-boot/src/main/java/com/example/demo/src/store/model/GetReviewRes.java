@@ -1,7 +1,5 @@
 package com.example.demo.src.store.model;
 
-import java.security.Timestamp;
-import java.time.LocalDate;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 

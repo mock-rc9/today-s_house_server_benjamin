@@ -96,9 +96,104 @@ public class StoreController {
             List<GetReviewRes> GetReviewRes = storeProvider.getReview(itemId);
             return new BaseResponse<>(SUCCESS, GetReviewRes);
         } catch(BaseException exception){
-            //exception.printStackTrace();
+            exception.printStackTrace();
             return new BaseResponse<>((exception.getStatus()), null);
             //new GetReviewRes("",0, Date(0000-00-00) ,"","")
+        }
+
+    }
+
+    /**
+     * 상품 판매자정보 API
+     * [GET] /app/stores/seller-info/:item-id
+     * @return BaseResponse<GetReviewRes>
+     */
+    // Path-variable
+    @ResponseBody
+    @GetMapping("/seller-info/{item-id}") 
+    public BaseResponse<GetSellerInfoRes> getSellerInfo(@PathVariable("item-id") int itemId) {
+        // Get Seller Information
+        try{
+            GetSellerInfoRes getSellerInfoRes = storeProvider.getSellerInfo(itemId);
+            return new BaseResponse<>(SUCCESS, getSellerInfoRes);
+        } catch(BaseException exception){
+            return new BaseResponse<>((exception.getStatus()), null);
+        }
+
+    }
+
+    /**
+     * 상품 문의 불러오기 API
+     * [GET] /app/stores/inquiry/:item-id
+     * @return BaseResponse<GetInquiryRes>
+     */
+    // Path-variable
+    @ResponseBody
+    @GetMapping("/inquiry/{item-id}") 
+    public BaseResponse<List<GetInquiryRes>> getInquiry (@PathVariable("item-id") int itemId) {
+        // Get inquiry 
+        try{
+            List<GetInquiryRes> getInquiryRes = storeProvider.getInquiry(itemId);
+            return new BaseResponse<>(SUCCESS, getInquiryRes);
+        } catch(BaseException exception){
+            return new BaseResponse<>((exception.getStatus()), null);
+        }
+
+    }
+
+    /**
+     * 상품 구매하기 API
+     * [GET] /app/stores/item/purchase/:item-id
+     * @return BaseResponse<GetInquiryRes>
+     */
+    // Path-variable
+    @ResponseBody
+    @GetMapping("/item/purchase/{item-id}") 
+    public BaseResponse<List<GetPurchaseRes>> getPurchse(@PathVariable("item-id") int itemId) {
+        // Get Purchase
+        try{
+            List<GetPurchaseRes> getPurchaseRes= storeProvider.getPurchase(itemId);
+            return new BaseResponse<>(SUCCESS, getPurchaseRes);
+        } catch(BaseException exception){
+            return new BaseResponse<>((exception.getStatus()), null);
+        }
+
+    }
+
+    /**
+     * 사용자관련 주문/결제 API
+     * [GET] /app/stores/payment/user/:user-idx
+     * @return BaseResponse<GetUserPaymentRes>
+     */
+    // Path-variable
+    @ResponseBody
+    @GetMapping("/payment/user/{user-idx}") 
+    public BaseResponse<GetUserPaymentRes> getUserPayment(@PathVariable("user-idx") int userIdx) {
+        // Get User Payment
+        try{
+            GetUserPaymentRes getUserPaymentRes= storeProvider.getUserPayment(userIdx);
+            return new BaseResponse<>(SUCCESS, getUserPaymentRes);
+        } catch(BaseException exception){
+            return new BaseResponse<>((exception.getStatus()), null);
+        }
+
+    }
+
+    /**
+     * 개별상품관련 주문/결제 API
+     * [GET] /app/stores/payment/item/:item-id
+     * @return BaseResponse<GetItemPaymentRes>
+     */
+    // Path-variable
+    @ResponseBody
+    @GetMapping("/payment/item/{item-id}") 
+    public BaseResponse<GetItemPaymentRes> getItemPayment(@PathVariable("item-id") int itemId) {
+        // Get Item Payment
+        try{
+            GetItemPaymentRes getItemPaymentRes= storeProvider.getItemPayment(itemId);
+            return new BaseResponse<>(SUCCESS, getItemPaymentRes);
+        } catch(BaseException exception){
+            return new BaseResponse<>((exception.getStatus()), null);
         }
 
     }
