@@ -122,6 +122,8 @@ public class StoreProvider {
     public GetItemDetailRes getItemDetail(int itemId) throws BaseException {
         try {
             GetItemDetailRes getItemDetailRes = storeDao.getItemDetail(itemId);
+            if(getItemDetailRes == null) {
+            }
             return getItemDetailRes;
         } catch (Exception exception) {
             throw new BaseException(DATABASE_ERROR);

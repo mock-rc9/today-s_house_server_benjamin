@@ -152,7 +152,7 @@ public class StoreDao {
     }
 
     public GetItemDetailRes getItemDetail(int itemId) {
-        String getItemDetailQuery = "select (select NAME from SHIPPING_CATEGORY as s where s.ID = i.SHIPPING_CATEGORY_ID) as shippingCategory, (select count(*) as scrapCnt from SCRAP_ITEM where ITEM_ID = ?) as scrapCnt, d.DISCOUNT_RATE as discountRate, d.NAME as couponName, d.BASE_PRICE as basePriceCondition, d.EXPIRATION_PERIOD as expDate from ITEM as i, DISCOUNT_COUPON as d  where i.ID = ? and (select COUPON_ID from AVAILABLE_COUPON where ITEM_ID = ?) = d.ID";
+        String getItemDetailQuery = "select (select NAME from SHIPPING_CATEGORY as s where s.ID = i.SHIPPING_CATEGORY_ID) as shippingCategory, (select count(*) as scrapCnt from SCRAP_ITEM where ITEM_ID = ?) as scrapCnt, (select DISCOUNT_RATE from DISCOUNT_COUPON as d where d.ID = ?) as discountRate, (select NAME from DISCOUNT_COUPON as d where d.ID = ?) as couponName, (select BASE_PRICE from DISCOUNT_COUPON as d where d.ID = ?) as basePriceCondition, (select EXPIRATION_PERIOD from DISCOUNT_COUPON as d where d.ID = ?) as expDate from ITEM as i LEFT JOIN AVAILABLE_COUPON as a on i.ID = a.ITEM_ID where i.ID = ?";
         return this.jdbcTemplate.queryForObject(getItemDetailQuery,
                 (rs, rowNum) -> new GetItemDetailRes(
                     rs.getString("shippingCategory"),
@@ -161,7 +161,7 @@ public class StoreDao {
                     rs.getString("couponName"), 
                     rs.getInt("basePriceCondition"),
                     rs.getTimestamp("expDate")),
-                itemId, itemId, itemId);
+                itemId, itemId, itemId, itemId, itemId, itemId);
     }
 
     public int modifyUserNick(PatchUserNicknameReq patchUserNicknameReq){
