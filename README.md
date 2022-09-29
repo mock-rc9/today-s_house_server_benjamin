@@ -743,3 +743,83 @@ _이외 클라이언트에 보이는 중요한 더미데이터(실제같은 데�
 + 서버개발자는 결국 API개발자이기때문에, API기능(쿼리 복잡도, validation처리..)에 신경쓰기
 
 ### 10. 개발 도중에 발생하는 이슈
+
+----
+
+# day13 dev log (22.09.29)
+
+### 1. 기획서의 변동사항(클라이언트와 협의한 내용만 작성 / 시간상 필수적인 기능 위주로)
+_day11과 동일_
+
+### 2. ERD 진행상황
++ ERD 설계 : 100% (28/28)
++ ERD 구현 : 100% (28/28)
+
+_기능세분화에따라 수정됨_
++ QUESTION
++ QUESTION_TYPE
++ REVIEW
++ PURCHASE
++ USER
++ USER_NOTIFICATION
++ STORE_ADVERTISEMENT
++ STORE
++ ITEM
++ AUTO_PLAY
++ FOLLOW
++ CONTENT_OF_ITEM
++ SCRAP_ITEM
++ NOTIFICATION_SETTING
++ ITEM_LARGE_CATEGORY
++ ITEM_MEDIUM_CATEGORY
++ ITEM_SMALL_CATEGORY
++ ITEM_DETAIL_CATEGORY
++ SELLER_INFORMATION
++ DISCOUNT_COUPON
++ CONTENT_ORGANIZATION_OF_ITEM
++ AVAILABLE_COUPON
++ ITEM_COLOR
++ ITEM_ADDITIONAL
++ SHIPPING_ADDRESS_LIST
++ SHIPPING_CATEGORY
++ MEMBERSHIP_LEVEL
++ BASKET
+
+_day11에대해 2개 테이블 추가됨_
+
+### 3. API 리스트업 진행상황 : 100% (32/32)
+_개발 작업하며 수정진행중_
+
+### 4. 현재 개발중인 API 
++ 회원등급 업 
+
+### 5. 개발 완료 API
++ 이메일 회원가입 
++ 이메일 로그인
++ 스토어 홈
++ 상품 리뷰 불러오기
++ 상품 판매자정보 불러오기
++ 상품 문의 불러오기
++ 상품 구매하기
++ 사용자관련 주문/결제
++ 개별상품에서 넘어가는 주문/결제
++ 상품 상세정보 (배송카테고리, 스크랩 수, 관련쿠폰정보)
++ 주문/결제의 주문자 닉네임 수정
++ 주문/결제의 주문자 이메일 수정
++ 주문/결제의 주문자 전화번호 수정
++ 상품 상세정보(상품정보 탭)
++ 장바구니 담기
++ 장바구니 삭제
++ 팔로우
++ 팔로우 취소
++ 리뷰쓰기
++ 리뷰삭제
++ 상품 스크랩
++ 상품 스크랩 삭제
++ 리뷰글 수정
++ 프로필 사진 수정
+
+### 6. 더미데이터 진행 상황 : 70%
+_클라이언트에 보이는 중요한 더미데이터(실제같은 데이터)는 신경써서 진행중_
+
+### 7. prod서버 구축 진행 상황 : 100%
