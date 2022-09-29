@@ -118,6 +118,33 @@ public class StoreProvider {
             throw new BaseException(DATABASE_ERROR);
         }
     }
+
+    public GetItemDetailRes getItemDetail(int itemId) throws BaseException {
+        try {
+            GetItemDetailRes getItemDetailRes = storeDao.getItemDetail(itemId);
+            return getItemDetailRes;
+        } catch (Exception exception) {
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+    public List<GetItemInfoTapRes> getItemInfoTap(int itemId) throws BaseException {
+        try {
+            List<GetItemInfoTapRes> getItemInfoTapRes = storeDao.getItemInfoTap(itemId);
+            return getItemInfoTapRes;
+        } catch (Exception exception) {
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+    public List<GetStoreHomeAdRes> getStoreHomeAd() throws BaseException {
+        try {
+            List<GetStoreHomeAdRes> getStoreHomeAdRes = storeDao.getStoreHomeAd();
+            return getStoreHomeAdRes;
+        } catch (Exception exception) {
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
     
 
     /* 

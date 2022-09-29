@@ -108,5 +108,98 @@ public class UserDao {
 
     }
 
+    public int addFollow(PostFollowReq postFollowReq){
+
+        String addFollowQuery = "insert into FOLLOW (USER_IDX, FOLLOWED_USER_IDX) VALUES (?,?)";
+        Object[] addFollowParams = new Object[]{postFollowReq.getUserIdxByJwt(), postFollowReq.getFollowedId()};
+
+        return this.jdbcTemplate.update(addFollowQuery, addFollowParams);
+    }
+
+    public int deleteFollow(DeleteFollowReq deleteFollowReq){
+
+        String deleteFollowQuery = "delete from FOLLOW where USER_IDX = ? and FOLLOWED_USER_IDX =?";
+        Object[] deleteFollowParams = new Object[]{deleteFollowReq.getUserIdxByJwt(), deleteFollowReq.getUnfollowedId()};
+
+        return this.jdbcTemplate.update(deleteFollowQuery, deleteFollowParams);
+    }
+
+    public int modifyProfile(PatchProfileReq patchProfileReq){
+        String modifyProfileQuery = "update USER set PROFILE_URL= ? where USER_IDX = ? ";
+        Object[] modifyProfileParams = new Object[]{patchProfileReq.getProfile(), patchProfileReq.getUserIdx()};
+
+        return this.jdbcTemplate.update(modifyProfileQuery,modifyProfileParams);
+    }
+
+    public int levelUp(PatchLevelReq patchLevelReq){
+        String levelUpQuery = "update USER set MEMBERSHIP_LEVEL= 2 where USER_IDX = ? ";
+        Object[] levelUpParams = new Object[]{patchLevelReq.getUserIdx()};
+
+        return this.jdbcTemplate.update(levelUpQuery,levelUpParams);
+    }
+
+    public int levelDown(PatchLevelReq patchLevelReq){
+        String levelDownQuery = "update USER set MEMBERSHIP_LEVEL= 1 where USER_IDX = ? ";
+        Object[] levelDownParams = new Object[]{patchLevelReq.getUserIdx()};
+
+        return this.jdbcTemplate.update(levelDownQuery,levelDownParams);
+    }
+
+    public int patchBackImage(PatchBackReq patchBackReq){
+        String patchBackImageQuery = "update USER set BACKGROUND_IMAGE = ? where USER_IDX = ? ";
+        Object[] patchBackImageParams = new Object[]{patchBackReq.getBackgroundImage(), patchBackReq.getUserIdx()};
+
+        return this.jdbcTemplate.update(patchBackImageQuery,patchBackImageParams);
+    }
+
+    public int patchUrl(PatchMyUrlReq patchMyUrlReq){
+        String levelDownQuery = "update USER set MY_URL= ? where USER_IDX = ? ";
+        Object[] levelDownParams = new Object[]{patchMyUrlReq.getMyUrl(), patchMyUrlReq.getUserIdx()};
+
+        return this.jdbcTemplate.update(levelDownQuery,levelDownParams);
+    }
+
+    public int patchIntroduction(PatchIntroductionReq patchIntroductionReq){
+        String levelDownQuery = "update USER set INTRODUCTION= ? where USER_IDX = ? ";
+        Object[] levelDownParams = new Object[]{patchIntroductionReq.getIntroduction(), patchIntroductionReq.getUserIdx()};
+
+        return this.jdbcTemplate.update(levelDownQuery,levelDownParams);
+    }
+
+    public int patchPwd(PatchPwdReq patchPwdReq){
+        String patchPwdQuery = "update USER set PASSWORD = ? where USER_IDX = ? ";
+        Object[] patchPwdParams = new Object[]{patchPwdReq.getPwd(), patchPwdReq.getUserIdx()};
+
+        return this.jdbcTemplate.update(patchPwdQuery,patchPwdParams);
+    }
+
+    public int addShippingList(PostShipAddressReq postShipAddressReq){
+        String addShippingListQuery = "insert into SHIPPING_ADDRESS_LIST (USER_IDX, TITLE, RECIPIENT, PHONE_NUMBER, ADDRESS) VALUES (?,?,?,?,?)";
+        Object[] addShippingListParams = new Object[]{postShipAddressReq.getUserIdx(), postShipAddressReq.getShippingName(), postShipAddressReq.getRecipient(), postShipAddressReq.getPhonenumber(), postShipAddressReq.getAddress()};
+        return this.jdbcTemplate.update(addShippingListQuery, addShippingListParams);
+        
+    }
+
+    public int deleteShippingList(DeleteShipAddressReq deleteShipAddressReq){
+
+        String deleteShippingListQuery = "delete from SHIPPING_ADDRESS_LIST where ID = ?";
+        Object[] deleteShippingListParams = new Object[]{deleteShipAddressReq.getShipAddId()};
+
+        return this.jdbcTemplate.update(deleteShippingListQuery, deleteShippingListParams);
+    }
+
+    public List<GetShippingListRes> getShippingList(int userIdx){
+        String getShippingListQuery = "select ID as shipListId, TITLE as shipListName, ADDRESS, RECIPIENT, PHONE_NUMBER as phonenumber, BASIC from SHIPPING_ADDRESS_LIST where USER_IDX = ?";
+        return this.jdbcTemplate.query(getShippingListQuery,
+                (rs, rowNum) -> new GetShippingListRes(
+                        rs.getInt("shipListId"),
+                        rs.getString("shipListName"),
+                        rs.getString("address"),
+                        rs.getString("recipient"),
+                        rs.getString("phonenumber"),
+                        rs.getInt("basic")),
+                    userIdx);
+    }
+
 
 }

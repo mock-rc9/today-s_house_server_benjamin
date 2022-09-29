@@ -157,5 +157,307 @@ public class UserController {
         }
     }
 
+    /**
+     * 팔로우 API
+     * [POST] /app/users/follow
+     * @return BaseResponse<String>
+     */
+    @ResponseBody
+    @PostMapping("/follow")
+    public BaseResponse<String> addFollow(@RequestBody Follow follow){
+        try{
+            //jwt에서 idx 추출.
+            int userIdx = jwtService.getUserIdx();
+
+            PostFollowReq postFollowReq = new PostFollowReq(userIdx, follow.getFollowedId());
+
+            userService.addFollow(postFollowReq);
+ 
+            String result = "*FOLLOW*";
+            return new BaseResponse<>(SUCCESS ,result);
+        } catch (BaseException exception){
+            return new BaseResponse<>((exception.getStatus()), null);
+        }
+    }
+
+    /**
+     * 팔로우 취소 API
+     * [DELETE] /app/users/cancel/follow
+     * @return BaseResponse<String>
+     */
+    @ResponseBody
+    @DeleteMapping("/cancel/follow")
+    public BaseResponse<String> deleteFollow(@RequestBody Follow follow){
+        try{
+            //jwt에서 idx 추출.
+            int userIdxByJwt = jwtService.getUserIdx();
+
+            DeleteFollowReq deleteFollowReq = new DeleteFollowReq(userIdxByJwt, follow.getUnFollowedId());
+
+            userService.deleteFollow(deleteFollowReq);
+ 
+            String result = "*UNFOLLOW*";
+            return new BaseResponse<>(SUCCESS ,result);
+        } catch (BaseException exception){
+            return new BaseResponse<>((exception.getStatus()), null);
+        }
+    }
+
+    /** 
+    * 프로필사진 수정 API
+    * [PATCH] /app/users/modify-profile/:user-idx
+    * @return BaseResponse<String>
+    */
+    // Path-variable
+    @ResponseBody
+    @PatchMapping("/modify-profile/{user-idx}")
+    public BaseResponse<String> modifyProfile(@PathVariable("user-idx") int userIdx, @RequestBody UserInfo userMyPage){
+        try {
+            //jwt에서 idx 추출.
+            int userIdxByJwt = jwtService.getUserIdx();
+            //userIdx와 접근한 유저가 같은지 확인
+            if(userIdx != userIdxByJwt){
+                return new BaseResponse<>(INVALID_USER_JWT,null);
+            }
+            //같다면 프로필사진 수정
+            PatchProfileReq patchProfileReq = new PatchProfileReq(userIdx, userMyPage.getProfile());
+            userService.modifyProfile(patchProfileReq);
+ 
+            String result = "*프로필 사진을 수정하였습니다*";
+            return new BaseResponse<>(SUCCESS ,result);
+        } catch (BaseException exception) {
+            return new BaseResponse<>((exception.getStatus()), null);
+        }
+    }
+
+    /** 
+    * 회원등급 업 API
+    * [PATCH] /app/users/levelUp
+    * @return BaseResponse<String>
+    */
+    // Path-variable
+    @ResponseBody
+    @PatchMapping("/levelUp")
+    public BaseResponse<String> levelUp(@RequestBody PatchLevelReq patchLevelReq){
+        try {
+            userService.levelUp(patchLevelReq);
+ 
+            String result = "*회원등급을 VIP로 업그레이드하였습니다*";
+            return new BaseResponse<>(SUCCESS ,result);
+        } catch (BaseException exception) {
+            return new BaseResponse<>((exception.getStatus()), null);
+        }
+    }
+
+    /** 
+    * 회원등급 다운 API
+    * [PATCH] /app/users/levelDown
+    * @return BaseResponse<String>
+    */
+    // Path-variable
+    @ResponseBody
+    @PatchMapping("/levelDown")
+    public BaseResponse<String> levelDown(@RequestBody PatchLevelReq patchLevelReq){
+        try {
+            userService.levelDown(patchLevelReq);
+ 
+            String result = "*회원등급을 WELCOME으로 다운그레이드하였습니다*";
+            return new BaseResponse<>(SUCCESS ,result);
+        } catch (BaseException exception) {
+            return new BaseResponse<>((exception.getStatus()), null);
+        }
+    }
+
+    /** 
+    * 배경사진 수정 API
+    * [PATCH] /app/users/modify-back/:user-idx
+    * @return BaseResponse<String>
+    */
+    // Path-variable
+    @ResponseBody
+    @PatchMapping("/modify-back/{user-idx}")
+    public BaseResponse<String> patchBackImage(@PathVariable("user-idx") int userIdx, @RequestBody UserInfo userInfo){
+        try {
+
+            //jwt에서 idx 추출.
+            int userIdxByJwt = jwtService.getUserIdx();
+            //userIdx와 접근한 유저가 같은지 확인
+            if(userIdx != userIdxByJwt){
+                return new BaseResponse<>(INVALID_USER_JWT,null);
+            }
+        //같다면 배경사진 수정
+            PatchBackReq patchBackReq = new PatchBackReq(userIdx, userInfo.getBackgroundImage());
+            
+            userService.patchBackImage(patchBackReq);
+ 
+            String result = "*배경사진을 변경하였습니다*";
+            return new BaseResponse<>(SUCCESS ,result);
+        } catch (BaseException exception) {
+            return new BaseResponse<>((exception.getStatus()), null);
+        }
+    }
+
+    /** 
+    * MY URL 수정 API
+    * [PATCH] /app/users/modify-url/:user-idx
+    * @return BaseResponse<String>
+    */
+    // Path-variable
+    @ResponseBody
+    @PatchMapping("/modify-url/{user-idx}")
+    public BaseResponse<String> patchUrl(@PathVariable("user-idx") int userIdx, @RequestBody UserInfo userInfo){
+        try {
+            //jwt에서 idx 추출.
+            int userIdxByJwt = jwtService.getUserIdx();
+            //userIdx와 접근한 유저가 같은지 확인
+            if(userIdx != userIdxByJwt){
+                return new BaseResponse<>(INVALID_USER_JWT,null);
+            }
+            //같다면 MY URL 수정
+            PatchMyUrlReq patchMyUrlReq = new PatchMyUrlReq(userIdx, userInfo.getMyUrl());
+            userService.patchUrl(patchMyUrlReq);
+ 
+            String result = "*MY URL을 수정하였습니다*";
+            return new BaseResponse<>(SUCCESS ,result);
+        } catch (BaseException exception) {
+            return new BaseResponse<>((exception.getStatus()), null);
+        }
+    }
+
+    /** 
+    * 한 줄 소개 수정 API
+    * [PATCH] /app/users/modify-introduction/:user-idx
+    * @return BaseResponse<String>
+    */
+    // Path-variable
+    @ResponseBody
+    @PatchMapping("/modify-introduction/{user-idx}")
+    public BaseResponse<String> patchIntroduction(@PathVariable("user-idx") int userIdx, @RequestBody UserInfo userInfo ){
+        try {
+            //jwt에서 idx 추출.
+            int userIdxByJwt = jwtService.getUserIdx();
+            //userIdx와 접근한 유저가 같은지 확인
+            if(userIdx != userIdxByJwt){
+                return new BaseResponse<>(INVALID_USER_JWT,null);
+            }
+            //같다면 프로필사진 수정
+            PatchIntroductionReq patchIntroductionReq = new PatchIntroductionReq(userIdx, userInfo.getIntroduction());
+            userService.patchIntroduction(patchIntroductionReq);
+ 
+            String result = "*한 줄 소개를 수정하였습니다*";
+            return new BaseResponse<>(SUCCESS ,result);
+        } catch (BaseException exception) {
+            return new BaseResponse<>((exception.getStatus()), null);
+        }
+    }
+
+    /** 
+    * 비밀번호 변경 API
+    * [PATCH] /app/users/modify-pwd/:user-idx
+    * @return BaseResponse<String>
+    */
+    // Path-variable
+    @ResponseBody
+    @PatchMapping("/modify-pwd/{user-idx}")
+    public BaseResponse<String> patchPwd(@PathVariable("user-idx") int userIdx, @RequestBody UserInfo userInfo ){
+        try {
+            //jwt에서 idx 추출.
+            int userIdxByJwt = jwtService.getUserIdx();
+            //userIdx와 접근한 유저가 같은지 확인
+            if(userIdx != userIdxByJwt){
+                return new BaseResponse<>(INVALID_USER_JWT,null);
+            }
+            //같다면 비밀번호 수정
+            PatchPwdReq patchPwdReq = new PatchPwdReq(userIdx, userInfo.getPwd());
+            userService.patchPwd(patchPwdReq);
+ 
+            String result = "*비밀번호가 수정되었습니다*";
+            return new BaseResponse<>(SUCCESS ,result);
+        } catch (BaseException exception) {
+            return new BaseResponse<>((exception.getStatus()), null);
+        }
+    }
+
+    /**
+     * 배송지 추가 API
+     * [POST] /app/users/add/shipping-list
+     * @return BaseResponse<String>
+     */
+    @ResponseBody
+    @PostMapping("/add/shipping-list")
+    public BaseResponse<String> addShippingList(@RequestBody UserInfo userInfo){
+        if(userInfo.getShippingName() == ""){
+            return new BaseResponse<>(POST_SHIPPING_NAME_EMPTY, null);
+        }
+        if(userInfo.getRecipient() == ""){
+            return new BaseResponse<>(POST_RECIPIENT_EMPTY, null);
+        }
+        if(userInfo.getPhonenumber() == ""){
+            return new BaseResponse<>(POST_PHONENUMBER_EMPTY, null);
+        }
+        if(userInfo.getAddress() == ""){
+            return new BaseResponse<>(POST_ADDRESS_EMPTY, null);
+        }
+        
+        try{
+            //jwt에서 idx 추출.
+            int userIdxByJwt = jwtService.getUserIdx();
+
+            PostShipAddressReq postShipAddressReq = new PostShipAddressReq(userIdxByJwt,userInfo.getShippingName(),userInfo.getRecipient(),userInfo.getPhonenumber(),userInfo.getAddress());
+
+            userService.addShippingList(postShipAddressReq);
+ 
+            String result = "*배송지가 추가되었습니다*";
+            return new BaseResponse<>(SUCCESS ,result);
+        } catch (BaseException exception){
+            return new BaseResponse<>((exception.getStatus()), null);
+        }
+    }
+
+    /**
+     * 배송지 삭제 API
+     * [DELETE] /app/users/delete/shipping-list
+     * @return BaseResponse<String>
+     */
+    @ResponseBody
+    @DeleteMapping("/delete/shipping-list")
+    public BaseResponse<String> deleteShippingList(@RequestBody UserInfo userInfo){
+        try{
+            //jwt에서 idx 추출.
+            int userIdxByJwt = jwtService.getUserIdx();
+
+            DeleteShipAddressReq deleteShipAddressReq = new  DeleteShipAddressReq (userIdxByJwt, userInfo.getShipAddId());
+
+            userService.deleteShippingList(deleteShipAddressReq);
+ 
+            String result = "*배송지가 삭제되었습니다*";
+            return new BaseResponse<>(SUCCESS ,result);
+        } catch (BaseException exception){
+            return new BaseResponse<>((exception.getStatus()), null);
+        }
+    }
+
+    /**
+     * 배송지 조회 API
+     * [GET] /app/users/shipping-list
+     * @return BaseResponse<List<GetShippingListRes>>
+     */
+    // Path-variable
+    @ResponseBody
+    @GetMapping("/shipping-list") 
+    public BaseResponse<List<GetShippingListRes>> getShippingList() {
+        // Get Shipping List
+        try{
+             //jwt에서 idx 추출.
+             int userIdxByJwt = jwtService.getUserIdx();
+            List<GetShippingListRes> getShippingListRes = userProvider.getShippingList(userIdxByJwt);
+            return new BaseResponse<>(SUCCESS, getShippingListRes);
+        } catch(BaseException exception){
+            return new BaseResponse<>((exception.getStatus()), null);
+        }
+
+    }
+
+
 
 }

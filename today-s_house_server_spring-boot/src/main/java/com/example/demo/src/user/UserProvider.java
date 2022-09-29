@@ -110,4 +110,13 @@ public class UserProvider {
 
     }
 
+    public List<GetShippingListRes> getShippingList(int userIdx) throws BaseException {
+        try {
+            List<GetShippingListRes> getShippingListRes = userDao.getShippingList(userIdx);
+            return getShippingListRes;
+        } catch (Exception exception) {
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
 }

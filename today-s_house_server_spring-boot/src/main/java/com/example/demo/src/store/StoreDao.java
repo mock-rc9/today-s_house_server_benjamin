@@ -139,7 +139,7 @@ public class StoreDao {
     }
 
     public GetItemPaymentRes getItemPayment(int itemId) {
-        String getItemPaymentQuery = "select (select s.NAME from SELLER_INFORMATION as s where i.SELLER_INFO_ID = s.ID) as companyName, i.DELIVERY_FEE as deliveryFee, i.NAME as itemName, d.NAME as couponName, d.BASE_PRICE as basePriceCondition, d.EXPIRATION_PERIOD as expDate from ITEM as i, DISCOUNT_COUPON as d where i.ID = ? and d.ID = (select COUPON_ID from AVAILABLE_COUPON where ITEM_ID =?);";
+        String getItemPaymentQuery = "select (select s.NAME from SELLER_INFORMATION as s where i.SELLER_INFO_ID = s.ID) as companyName, i.DELIVERY_FEE as deliveryFee, i.NAME as itemName, d.NAME as couponName, d.BASE_PRICE as basePriceCondition, d.EXPIRATION_PERIOD as expDate from ITEM as i, DISCOUNT_COUPON as d where i.ID = ? and d.ID = (select COUPON_ID from AVAILABLE_COUPON where ITEM_ID =?)";
         return this.jdbcTemplate.queryForObject(getItemPaymentQuery,
                 (rs, rowNum) -> new GetItemPaymentRes(
                     rs.getString("companyName"),
@@ -149,6 +149,115 @@ public class StoreDao {
                     rs.getInt("basePriceCondition"),
                     rs.getTimestamp("expDate")),
                 itemId, itemId);
+    }
+
+    public GetItemDetailRes getItemDetail(int itemId) {
+        String getItemDetailQuery = "select (select NAME from SHIPPING_CATEGORY as s where s.ID = i.SHIPPING_CATEGORY_ID) as shippingCategory, (select count(*) as scrapCnt from SCRAP_ITEM where ITEM_ID = ?) as scrapCnt, d.DISCOUNT_RATE as discountRate, d.NAME as couponName, d.BASE_PRICE as basePriceCondition, d.EXPIRATION_PERIOD as expDate from ITEM as i, DISCOUNT_COUPON as d  where i.ID = ? and (select COUPON_ID from AVAILABLE_COUPON where ITEM_ID = ?) = d.ID";
+        return this.jdbcTemplate.queryForObject(getItemDetailQuery,
+                (rs, rowNum) -> new GetItemDetailRes(
+                    rs.getString("shippingCategory"),
+                    rs.getInt("scrapCnt"),
+                    rs.getInt("discountRate"),
+                    rs.getString("couponName"), 
+                    rs.getInt("basePriceCondition"),
+                    rs.getTimestamp("expDate")),
+                itemId, itemId, itemId);
+    }
+
+    public int modifyUserNick(PatchUserNicknameReq patchUserNicknameReq){
+
+        String modifyUserNicknameQuery = "update USER set NICKNAME = ? where USER_IDX = ?";
+        Object[] modifyUserNicknameParams = new Object[]{patchUserNicknameReq.getNickname(), patchUserNicknameReq.getUserIdx()};
+
+        return this.jdbcTemplate.update(modifyUserNicknameQuery,modifyUserNicknameParams);
+    }
+
+    public int modifyUserEmail(PatchUserEmailReq patchUserEmailReq){
+
+        String modifyUserEmailQuery = "update USER set EMAIL = ? where USER_IDX = ?";
+        Object[] modifyUserEmailParams = new Object[]{patchUserEmailReq.getEmail(), patchUserEmailReq.getUserIdx()};
+
+        return this.jdbcTemplate.update(modifyUserEmailQuery, modifyUserEmailParams);
+    }
+
+    public int modifyUserPhone(PatchUserPhonenumberReq patchUserPhonenumberReq){
+
+        String modifyUserPhonenumberQuery = "update USER set PHONE_NUMBER = ? where USER_IDX = ?";
+        Object[] modifyUserPhonenumberParams = new Object[]{patchUserPhonenumberReq.getPhonenumber(), patchUserPhonenumberReq.getUserIdx()};
+
+        return this.jdbcTemplate.update(modifyUserPhonenumberQuery, modifyUserPhonenumberParams);
+    }
+
+    public List<GetItemInfoTapRes> getItemInfoTap(int itemId) {
+        String getItemInfoTapQuery = "select coi.IMAGE as contents from CONTENT_ORGANIZATION_OF_ITEM as c LEFT JOIN CONTENT_OF_ITEM as coi on c.CONTENT_ID = coi.ID where c.ITEM_ID = ?";
+        return this.jdbcTemplate.query(getItemInfoTapQuery,
+                (rs, rowNum) -> new GetItemInfoTapRes(
+                    rs.getString("contents")),
+                itemId);
+    }
+
+    public int addBasket(PostAddBasketReq postAddBasketReq){
+
+        String addBasketQuery = "insert into BASKET (USER_IDX, ITEM_ID) VALUES (?,?)";
+        Object[] addBasketParams = new Object[]{postAddBasketReq.getUserIdx(), postAddBasketReq.getItemId()};
+
+        return this.jdbcTemplate.update(addBasketQuery, addBasketParams);
+    }
+
+    public int deleteBasket(DeleteItemBasketReq deleteItemBasketReq){
+
+        String deleteBasketQuery = "delete from BASKET where USER_IDX = ? and ITEM_ID =?";
+        Object[] deleteBasketParams = new Object[]{deleteItemBasketReq.getUserIdx(), deleteItemBasketReq.getItemId()};
+
+        return this.jdbcTemplate.update(deleteBasketQuery, deleteBasketParams);
+    }
+
+    public int addReview(PostReviewReq postReviewReq){
+
+        String addReviewQuery = "insert into REVIEW (ITEM_ID, COLOR_ID, USER_IDX, STAR_RATING, CONTENTS, IMAGE) values (?,?,?,?,?,?)";
+        Object[] addReviewParams = new Object[]{postReviewReq.getItemId(), postReviewReq.getColorId(), postReviewReq.getUserIdxByJwt(), postReviewReq.getStarRating(), postReviewReq.getContents(), postReviewReq.getImage()};
+
+        return this.jdbcTemplate.update(addReviewQuery, addReviewParams);
+    }
+
+    public int deleteReview(int reviewId){
+
+        String deleteReviewQuery = "delete from REVIEW where REVIEW_ID =?";
+        Object[] deleteReviewParams = new Object[]{reviewId};
+
+        return this.jdbcTemplate.update(deleteReviewQuery, deleteReviewParams);
+    }
+
+    public int addScrap(ScrapItemReq postAddScrapItemReq){
+
+        String addScrapQuery = "insert into SCRAP_ITEM (USER_IDX, ITEM_ID) values (?,?)";
+        Object[] addScrapParams = new Object[]{postAddScrapItemReq.getUserIdxByJwt(), postAddScrapItemReq.getItemId()};
+
+        return this.jdbcTemplate.update(addScrapQuery, addScrapParams);
+    }
+
+    public int deleteScrap(ScrapItemReq deleteScrapItemReq){
+
+        String deleteScrapQuery = "delete from SCRAP_ITEM where USER_IDX =? and ITEM_ID =?";
+        Object[] deleteScrapParams = new Object[]{deleteScrapItemReq.getUserIdxByJwt(), deleteScrapItemReq.getItemId()};
+
+        return this.jdbcTemplate.update(deleteScrapQuery, deleteScrapParams);
+    }
+
+    public int modifyReview(PatchReviewReq patchReviewReq){
+
+        String modifyReviewQuery = "update REVIEW set CONTENTS = ? where REVIEW_ID = ?";
+        Object[] modifyReviewParams = new Object[]{patchReviewReq.getContents(), patchReviewReq.getReviewId()};
+
+        return this.jdbcTemplate.update(modifyReviewQuery, modifyReviewParams);
+    }
+
+    public List<GetStoreHomeAdRes> getStoreHomeAd(){
+        String getStoreHomeAdQuery = "select URL as adUrl from STORE_ADVERTISEMENT";
+        return this.jdbcTemplate.query(getStoreHomeAdQuery,
+                (rs, rowNum) -> new GetStoreHomeAdRes(
+                        rs.getString("adUrl"))
+                );
     }
     
     /* 

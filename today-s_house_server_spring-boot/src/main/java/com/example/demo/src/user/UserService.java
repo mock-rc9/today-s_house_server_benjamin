@@ -61,6 +61,148 @@ public class UserService {
         }
     }
 
+    public void addFollow(PostFollowReq postFollowReq) throws BaseException {
+        try{
+            int result = userDao.addFollow(postFollowReq);
+            if(result == 0){
+                throw new BaseException(ADD_FOLLOW_FAIL);
+            }
+        } catch(Exception exception){
+            exception.printStackTrace();
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+    public void deleteFollow(DeleteFollowReq deleteFollowReq) throws BaseException {
+        try{
+            int result = userDao.deleteFollow(deleteFollowReq);
+            if(result == 0){
+                throw new BaseException(DELETE_FOLLOW_FAIL);
+            }
+        } catch(Exception exception){
+            exception.printStackTrace();
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+    public void modifyProfile(PatchProfileReq patchProfileReq) throws BaseException {
+        try{
+            int result = userDao.modifyProfile(patchProfileReq);
+            if(result == 0){
+                throw new BaseException(MODIFY_FAIL_PROFILE);
+            }
+        } catch(Exception exception){
+            //exception.printStackTrace();
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+    public void levelUp(PatchLevelReq patchLevelReq) throws BaseException {
+        try{
+            int result = userDao.levelUp(patchLevelReq);
+            if(result == 0){
+                throw new BaseException(MODIFY_FAIL_LEVEL);
+            }
+        } catch(Exception exception){
+            //exception.printStackTrace();
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+    public void levelDown(PatchLevelReq patchLevelReq) throws BaseException {
+        try{
+            int result = userDao.levelDown(patchLevelReq);
+            if(result == 0){
+                throw new BaseException(MODIFY_FAIL_LEVEL);
+            }
+        } catch(Exception exception){
+            //exception.printStackTrace();
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+    public void patchBackImage(PatchBackReq patchBackReq) throws BaseException {
+        try{
+            int result = userDao.patchBackImage(patchBackReq);
+            if(result == 0){
+                throw new BaseException(MODIFY_FAIL_BACKGROUNDIMAGE);
+            }
+        } catch(Exception exception){
+            //exception.printStackTrace();
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+    public void patchUrl(PatchMyUrlReq patchMyUrlReq) throws BaseException {
+        try{
+            int result = userDao.patchUrl(patchMyUrlReq);
+            if(result == 0){
+                throw new BaseException(MODIFY_FAIL_MYURL);
+            }
+        } catch(Exception exception){
+            //exception.printStackTrace();
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+    public void patchIntroduction(PatchIntroductionReq patchIntroductionReq ) throws BaseException {
+        try{
+            int result = userDao.patchIntroduction(patchIntroductionReq);
+            if(result == 0){
+                throw new BaseException(MODIFY_FAIL_INTRODUCTION);
+            }
+        } catch(Exception exception){
+            //exception.printStackTrace();
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+    public void patchPwd(PatchPwdReq patchPwdReq) throws BaseException {
+        String encPwd;
+        try{
+            //암호화
+            encPwd = new SHA256().encrypt(patchPwdReq.getPwd());
+            patchPwdReq.setPwd(encPwd);
+
+        } catch (Exception ignored) {
+            throw new BaseException(PASSWORD_ENCRYPTION_ERROR);
+        }
+        try{
+            int result = userDao.patchPwd(patchPwdReq);
+            if(result == 0){
+                throw new BaseException(MODIFY_FAIL_PASSWORD);
+            }
+        } catch(Exception exception){
+            //exception.printStackTrace();
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+    public void addShippingList(PostShipAddressReq postShipAddressReq) throws BaseException {
+        try{
+            int result = userDao.addShippingList(postShipAddressReq);
+            if(result == 0){
+                throw new BaseException(ADD_SHIPPING_LIST_FAIL);
+            }
+        } catch(Exception exception){
+            exception.printStackTrace();
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+    public void deleteShippingList(DeleteShipAddressReq deleteShipAddressReq ) throws BaseException {
+        try{
+            int result = userDao.deleteShippingList(deleteShipAddressReq );
+            if(result == 0){
+                throw new BaseException(DELETE_SHIPPING_LIST_FAIL);
+            }
+        } catch(Exception exception){
+            exception.printStackTrace();
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+
+/* 
     public void modifyUserName(PatchUserReq patchUserReq) throws BaseException {
         try{
             int result = userDao.modifyUserName(patchUserReq);
@@ -71,4 +213,5 @@ public class UserService {
             throw new BaseException(DATABASE_ERROR);
         }
     }
+    */
 }

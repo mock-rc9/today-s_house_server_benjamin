@@ -29,6 +29,16 @@ public enum BaseResponseStatus {
     POST_USERS_EMPTY_EMAIL(false, 2015, "이메일을 입력해주세요."),
     POST_USERS_EMPTY_PASSWORD(false, 2016, "비밀번호를 입력해주세요."),
     POST_USERS_EMPTY_NICKNAME(false, 2017, "닉네임을 입력해주세요."),
+
+    POST_ADD_BASKET_EMPTY_ITEM(false, 2018, "아이템이 제대로 선택되지 않았습니다."),
+
+    POST_REVIEW_EMPTY(false,2019,"리뷰작성란이 비어있습니다."),
+
+    POST_SHIPPING_NAME_EMPTY(false,2020,"배송지명을 입력해주세요."),
+    POST_RECIPIENT_EMPTY(false,2021,"받는사람을 입력해주세요."),
+    POST_PHONENUMBER_EMPTY(false,2022,"연락처를 입력해주세요."),
+    POST_ADDRESS_EMPTY(false,2023,"주소를 입력해주세요."),
+
     
 
 
@@ -59,18 +69,42 @@ public enum BaseResponseStatus {
     // [POST] /users/sign-up
     CHECK_EXISTS_EMAIL(false, 4002, "중복된 이메일인지 체크하는데 실패하였습니다."),
     CHECK_EXISTS_NICKNAME(false, 4003, "중복된 닉네임인지 체크하는데 실패하였습니다."),
-    
 
-    //[PATCH] /users/{userIdx}
-    MODIFY_FAIL_USERNAME(false,4014,"유저네임 수정 실패"),
 
     PASSWORD_ENCRYPTION_ERROR(false, 4011, "비밀번호 암호화에 실패하였습니다."),
     PASSWORD_DECRYPTION_ERROR(false, 4012, "비밀번호 복호화에 실패하였습니다."),
 
-    FILE_UPLOAD_FAIL(false,4013,"파일 업로드에 실패하였습니다"),
-    FILE_DELETE_FAIL(false,4014,"파일 삭제에 실패하였습니다"),
-    WRONG_FORMAT_ERROR(false,4015,"잘못된 형식의 파일입니다.");
+    FILE_UPLOAD_FAIL(false,4013,"파일 업로드에 실패하였습니다."),
+    FILE_DELETE_FAIL(false,4014,"파일 삭제에 실패하였습니다."),
+    WRONG_FORMAT_ERROR(false,4015,"잘못된 형식의 파일입니다."),
 
+    //[PATCH] /app/stores/payment/correction/:user-idx
+    MODIFY_FAIL_USER_NICKNAME(false,4016,"유저 닉네임 수정에 실패하였습니다."),
+    MODIFY_FAIL_USER_EMAIL(false,4017,"유저 이메일 수정에 실패하였습니다."),
+    MODIFY_FAIL_USER_PHONENUMBER(false,4018,"유저 전화번호 수정에 실패하였습니다."),
+
+    ADD_BASKET_FAIL(false, 4019, "장바구니에 상품을 추가하지 못하였습니다."),
+    DELETE_BASKET_FAIL(false, 4020, "장바구니에서 상품을 삭제하지 못하였습니다."),
+
+    ADD_FOLLOW_FAIL(false,4021,"follow에 실패하였습니다."),
+    DELETE_FOLLOW_FAIL(false,4022,"unfollow에 실패하였습니다."),
+
+    ADD_REVIEW_FAIL(false,4023,"리뷰업로드에 실패하였습니다."),
+    DELETE_REVIEW_FAIL(false,4024,"리뷰삭제에 실패하였습니다."),
+    ADD_SCRAP_FAIL(false,4025,"상품을 스크랩하는데에 실패하였습니다."),
+    DELETE_SCRAP_FAIL(false,4026,"상품을 스크랩 목록에서 삭제하는데에 실패하였습니다."),
+
+    MODIFY_FAIL_REVIEW(false,4027,"리뷰를 수정하는데 실패하였습니다."),
+    MODIFY_FAIL_LEVEL(false,4028,"회원등급을 수정하는데 실패하였습니다."),
+    MODIFY_FAIL_PROFILE(false,4029,"프로필 사진을 수정하는데 실패하였습니다."),
+    MODIFY_FAIL_BACKGROUNDIMAGE(false,4030,"배경사진을 수정하는데 실패하였습니다."),
+    MODIFY_FAIL_MYURL(false,4031,"my url을 수정하는데 실패하였습니다."),
+    MODIFY_FAIL_INTRODUCTION(false,4032,"한 줄 소개를 수정하는데 실패하였습니다."),
+    MODIFY_FAIL_PASSWORD(false,4033,"비밀번호 변경에 실패하였습니다."),
+
+    ADD_SHIPPING_LIST_FAIL(false,4034,"배송지 추가에 실패하였습니다."),
+    DELETE_SHIPPING_LIST_FAIL(false,4035,"배송지 삭제에 실패하였습니다."),
+    GET_SHIPPING_LIST_FAIL(false,4036,"배송지 조회에 실패하였습니다.");
     // 5000 : 필요시 만들어서 쓰세요
     // 6000 : 필요시 만들어서 쓰세요
 

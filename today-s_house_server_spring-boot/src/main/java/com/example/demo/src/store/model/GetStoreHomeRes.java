@@ -1,5 +1,7 @@
 package com.example.demo.src.store.model;
 
+import java.sql.Array;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;

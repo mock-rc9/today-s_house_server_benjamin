@@ -72,7 +72,7 @@ public class StoreController {
     @ResponseBody
     @GetMapping("/home") 
     public BaseResponse<List<GetStoreHomeRes>> getStoreHome() {
-        // Get Users
+        // Get Store Home
         try{
             List<GetStoreHomeRes> getStoreHomeRes = storeProvider.getStoreHome();
             return new BaseResponse<>(SUCCESS, getStoreHomeRes);
@@ -98,7 +98,6 @@ public class StoreController {
         } catch(BaseException exception){
             exception.printStackTrace();
             return new BaseResponse<>((exception.getStatus()), null);
-            //new GetReviewRes("",0, Date(0000-00-00) ,"","")
         }
 
     }
@@ -106,7 +105,7 @@ public class StoreController {
     /**
      * 상품 판매자정보 API
      * [GET] /app/stores/seller-info/:item-id
-     * @return BaseResponse<GetReviewRes>
+     * @return BaseResponse<GetSellerInfoRes>
      */
     // Path-variable
     @ResponseBody
@@ -197,6 +196,342 @@ public class StoreController {
         }
 
     }
+
+    /**
+     * 상품 상세정보(배송 카테고리, 스크랩 수, 쿠폰관련)  API
+     * [GET] /app/stores/item/:item-id
+     * @return BaseResponse<GetItemDetailRes>
+     */
+    // Path-variable
+    @ResponseBody
+    @GetMapping("/item/{item-id}") 
+    public BaseResponse<GetItemDetailRes> getItemDetail(@PathVariable("item-id") int itemId) {
+        // Get Item Detail
+        try{
+            GetItemDetailRes getItemDetailRes = storeProvider.getItemDetail(itemId);
+            return new BaseResponse<>(SUCCESS, getItemDetailRes);
+        } catch(BaseException exception){
+            return new BaseResponse<>((exception.getStatus()), null);
+        }
+
+    }
+    
+    /** 
+    * 주문/결제의 주문자 닉네임수정 API
+    * [PATCH] /app/stores/payment/modify-nick/:user-idx
+    * @return BaseResponse<String>
+    */
+    // Path-variable
+   @ResponseBody
+   @PatchMapping("/payment/modify-nick/{user-idx}")
+   public BaseResponse<String> modifyUserNick(@PathVariable("user-idx") int userIdx, @RequestBody Store store){
+       try {
+           //jwt에서 idx 추출.
+           int userIdxByJwt = jwtService.getUserIdx();
+           //userIdx와 접근한 유저가 같은지 확인
+           if(userIdx != userIdxByJwt){
+               return new BaseResponse<>(INVALID_USER_JWT,null);
+           }
+           //같다면 주문자 닉네임 수정
+           PatchUserNicknameReq patchUserNicknameReq  = new PatchUserNicknameReq(userIdx, store.getNickname());
+           storeService.modifyUserNick(patchUserNicknameReq);
+
+           String result = "*닉네임을 변경하였습니다*";
+           return new BaseResponse<>(SUCCESS ,result);
+       } catch (BaseException exception) {
+           return new BaseResponse<>((exception.getStatus()), null);
+       }
+   }
+
+   /** 
+    * 주문/결제의 주문자 이메일수정 API
+    * [PATCH] /app/stores/payment/modify-email/:user-idx
+    * @return BaseResponse<String>
+    */
+    // Path-variable
+    @ResponseBody
+    @PatchMapping("/payment/modify-email/{user-idx}")
+    public BaseResponse<String> modifyUserEmail(@PathVariable("user-idx") int userIdx, @RequestBody Store store){
+        try {
+            //jwt에서 idx 추출.
+            int userIdxByJwt = jwtService.getUserIdx();
+            //userIdx와 접근한 유저가 같은지 확인
+            if(userIdx != userIdxByJwt){
+                return new BaseResponse<>(INVALID_USER_JWT,null);
+            }
+            //같다면 주문자 이메일 수정
+            PatchUserEmailReq patchUserEmailReq   = new PatchUserEmailReq (userIdx, store.getEmail());
+            storeService.modifyUserEmail(patchUserEmailReq );
+ 
+            String result = "*이메일을 변경하였습니다*";
+            return new BaseResponse<>(SUCCESS ,result);
+        } catch (BaseException exception) {
+            return new BaseResponse<>((exception.getStatus()), null);
+        }
+    }
+
+    /** 
+    * 주문/결제의 주문자 전화번호수정 API
+    * [PATCH] /app/stores/payment/modify-phone/:user-idx
+    * @return BaseResponse<String>
+    */
+    // Path-variable
+    @ResponseBody
+    @PatchMapping("/payment/modify-phone/{user-idx}")
+    public BaseResponse<String> modifyUserPhone(@PathVariable("user-idx") int userIdx, @RequestBody Store store){
+        try {
+            //jwt에서 idx 추출.
+            int userIdxByJwt = jwtService.getUserIdx();
+            //userIdx와 접근한 유저가 같은지 확인
+            if(userIdx != userIdxByJwt){
+                return new BaseResponse<>(INVALID_USER_JWT,null);
+            }
+            //같다면 주문자 전화번호 수정
+            PatchUserPhonenumberReq patchUserPhonenumberReq = new PatchUserPhonenumberReq(userIdx, store.getPhoneNumber());
+            storeService.modifyUserPhone(patchUserPhonenumberReq);
+ 
+            String result = "*전화번호를 변경하였습니다*";
+            return new BaseResponse<>(SUCCESS ,result);
+        } catch (BaseException exception) {
+            return new BaseResponse<>((exception.getStatus()), null);
+        }
+    }
+
+    /**
+     * 상품정보 탭 (이미지)API
+     * [GET] /app/stores/item/info-tap/:item-id
+     * @return BaseResponse<GetItemInfoTapRes>
+     */
+    // Path-variable
+    @ResponseBody
+    @GetMapping("/item/info-tap/{item-id}") 
+    public BaseResponse<List<GetItemInfoTapRes>> getItemInfoTap(@PathVariable("item-id") int itemId) {
+        // Get Item Info Tap
+        try{
+            List<GetItemInfoTapRes> getItemInfoTapRes = storeProvider.getItemInfoTap(itemId);
+            return new BaseResponse<>(SUCCESS, getItemInfoTapRes);
+        } catch(BaseException exception){
+            return new BaseResponse<>((exception.getStatus()), null);
+        }
+
+    }
+
+    /**
+     * 장바구니 담기 API
+     * [POST] /app/stores/item/add/basket
+     * @return BaseResponse<String>
+     */
+    @ResponseBody
+    @PostMapping("/item/add/basket")
+    public BaseResponse<String> addBasket(@RequestBody Store store){
+        if(store.getItemId() == 0){
+            return new BaseResponse<>(POST_ADD_BASKET_EMPTY_ITEM, null);
+        }
+        try{
+            //jwt에서 idx 추출.
+            int userIdxByJwt = jwtService.getUserIdx();
+
+            PostAddBasketReq postAddBasketReq = new PostAddBasketReq(userIdxByJwt, store.getItemId());
+
+            storeService.addBasket(postAddBasketReq);
+ 
+            String result = "*해당 상품이 장바구니에 담겼습니다*";
+            return new BaseResponse<>(SUCCESS ,result);
+        } catch (BaseException exception){
+            return new BaseResponse<>((exception.getStatus()), null);
+        }
+    }
+
+    /**
+     * 장바구니 삭제 API
+     * [DELETE] /app/stores/item/delete/basket
+     * @return BaseResponse<String>
+     */
+    @ResponseBody
+    @DeleteMapping("/item/delete/basket")
+    public BaseResponse<String> deleteBasket(@RequestBody Store store) {
+        try{
+            //jwt에서 idx 추출.
+            int userIdxByJwt = jwtService.getUserIdx();
+
+            DeleteItemBasketReq deleteItemBasketReq = new DeleteItemBasketReq(userIdxByJwt, store.getItemId());
+
+            storeService.deleteBasket(deleteItemBasketReq);
+ 
+            String result = "*해당 상품이 장바구니에서 제거되었습니다*";
+            return new BaseResponse<>(SUCCESS ,result);
+        } catch(BaseException exception){
+            return new BaseResponse<>((exception.getStatus()), null);
+        }
+    }
+
+    /**
+     * 리뷰쓰기 API
+     * [POST] /app/stores/item/review
+     * @return BaseResponse<String>
+     */
+    @ResponseBody
+    @PostMapping("/item/review")
+    public BaseResponse<String> addReview(@RequestBody Review review){
+        if(review.getContents() == ""){
+            return new BaseResponse<>(POST_REVIEW_EMPTY, null);
+        }
+        try{
+            //jwt에서 idx 추출.
+            int userIdxByJwt = jwtService.getUserIdx();
+
+            PostReviewReq postReviewReq = new PostReviewReq(review.getItemId(), userIdxByJwt, review.getColorId(), review.getStarRating(), review.getContents(), review.getImage());
+
+            storeService.addReview(postReviewReq);
+ 
+            String result = "*리뷰가 성공적으로 작성되었습니다*";
+            return new BaseResponse<>(SUCCESS ,result);
+        } catch (BaseException exception){
+            return new BaseResponse<>((exception.getStatus()), null);
+        }
+    }
+
+    /**
+     * 리뷰 삭제 API
+     * [DELETE] /app/stores/item/delete/review/:user-idx
+     * @return BaseResponse<String>
+     */
+    @ResponseBody
+    @DeleteMapping("item/delete/review/{user-idx}")
+    public BaseResponse<String> deleteReview(@PathVariable("user-idx") int userIdx, @RequestBody Review review) {
+        try{
+            //jwt에서 idx 추출.
+            int userIdxByJwt = jwtService.getUserIdx();
+            //userIdx와 접근한 유저가 같은지 확인
+            if(userIdx != userIdxByJwt){
+                return new BaseResponse<>(INVALID_USER_JWT,null);
+            }
+
+            //같으면 삭제
+            storeService.deleteReview(review.getReviewId());
+ 
+            String result = "*리뷰가 삭제되었습니다*";
+            return new BaseResponse<>(SUCCESS ,result);
+        } catch(BaseException exception){
+            return new BaseResponse<>((exception.getStatus()), null);
+        }
+    }
+
+    /**
+     * 상품 스크랩 API
+     * [POST] /app/stores/item/scrap
+     * @return BaseResponse<String>
+     */
+    @ResponseBody
+    @PostMapping("/item/scrap")
+    public BaseResponse<String> addScrap(@RequestBody Store store){
+        try{
+            //jwt에서 idx 추출.
+            int userIdxByJwt = jwtService.getUserIdx();
+
+            ScrapItemReq postAddScrapItemReq = new ScrapItemReq(userIdxByJwt, store.getItemId());
+
+            storeService.addScrap(postAddScrapItemReq);
+ 
+            String result = "*해당 상품을 스크랩했습니다*";
+            return new BaseResponse<>(SUCCESS ,result);
+        } catch (BaseException exception){
+            return new BaseResponse<>((exception.getStatus()), null);
+        }
+    }
+
+    /**
+     * 스크랩 삭제 API
+     * [DELETE] /app/stores/item/delete/scrap
+     * @return BaseResponse<String>
+     */
+    @ResponseBody
+    @DeleteMapping("/item/delete/scrap")
+    public BaseResponse<String> deleteScrap(@RequestBody Store store) {
+        try{
+            //jwt에서 idx 추출.
+            int userIdxByJwt = jwtService.getUserIdx();
+
+            ScrapItemReq deleteScrapItemReq = new ScrapItemReq(userIdxByJwt, store.getItemId());
+
+            storeService.deleteScrap(deleteScrapItemReq);
+ 
+            String result = "*해당상품을 스크랩 목록에서 삭제하였습니다*";
+            return new BaseResponse<>(SUCCESS ,result);
+        } catch(BaseException exception){
+            return new BaseResponse<>((exception.getStatus()), null);
+        }
+    }
+
+    /** 
+    * 리뷰글 수정 API
+    * [PATCH] /app/stores/item/modify-review/:user-idx
+    * @return BaseResponse<String>
+    */
+    // Path-variable
+    @ResponseBody
+    @PatchMapping("/item/modify-review/{user-idx}")
+    public BaseResponse<String> modifyReview(@PathVariable("user-idx") int userIdx, @RequestBody Review review){
+        try {
+            //jwt에서 idx 추출.
+            int userIdxByJwt = jwtService.getUserIdx();
+            //userIdx와 접근한 유저가 같은지 확인
+            if(userIdx != userIdxByJwt){
+                return new BaseResponse<>(INVALID_USER_JWT,null);
+            }
+            //같다면 주문자 리뷰 수정
+            PatchReviewReq patchReviewReq = new PatchReviewReq(userIdx, review.getReviewId(), review.getContents());
+            storeService.modifyReview(patchReviewReq);
+ 
+            String result = "*리뷰를 수정하였습니다*";
+            return new BaseResponse<>(SUCCESS ,result);
+        } catch (BaseException exception) {
+            return new BaseResponse<>((exception.getStatus()), null);
+        }
+    }
+
+    /**
+     * 스토어 홈 광고 불러오기 API
+     * [GET] /app/stores/home/ad
+     * @return BaseResponse<GetStoreHomeRes>
+     */
+    // Path-variable
+    @ResponseBody
+    @GetMapping("/home/ad") 
+    public BaseResponse<List<GetStoreHomeAdRes>> getStoreHomeAd() {
+        // Get Store Home Advertisement
+        try{
+            List<GetStoreHomeAdRes> getStoreHomeAdRes = storeProvider.getStoreHomeAd();
+            return new BaseResponse<>(SUCCESS, getStoreHomeAdRes);
+        } catch(BaseException exception){
+            return new BaseResponse<>((exception.getStatus()), null);
+        }
+
+    }
+
+    
+
+    
+    /**
+     * 담겨있는 장바구니 API
+     * [GET] /app/stores/item/basket/:user-idx
+     * @return BaseResponse<GetUserRes>
+     */
+    // Path-variable
+    /* 
+    @ResponseBody
+    @GetMapping("/{userIdx}") // (GET) 127.0.0.1:9000/app/users/:userIdx
+    public BaseResponse<GetUserRes> getUser(@PathVariable("userIdx") int userIdx) {
+        // Get Users
+        try{
+            GetUserRes getUserRes = userProvider.getUser(userIdx);
+            return new BaseResponse<>(SUCCESS, getUserRes);
+        } catch(BaseException exception){
+            return new BaseResponse<>((exception.getStatus()), null);
+        }
+
+    }
+    */
 
     
 
