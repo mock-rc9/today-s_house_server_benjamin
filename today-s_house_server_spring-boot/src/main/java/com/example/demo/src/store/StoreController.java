@@ -509,6 +509,27 @@ public class StoreController {
 
     }
 
+    /**
+     * 상품 스크랩북 API
+     * [GET] /app/stores/item/scrap-book
+     * @return BaseResponse<GetStoreHomeRes>
+     */
+    // Path-variable
+    @ResponseBody
+    @GetMapping("/scrap-book") 
+    public BaseResponse<List<GetItemScrapBookRes>> getItemScrapBook() {
+        // Get Item Scrap Book
+        try{
+            int userIdxByJwt = jwtService.getUserIdx();
+
+            List<GetItemScrapBookRes> getItemScrapBookRes = storeProvider.getItemScrapBook(userIdxByJwt);
+            return new BaseResponse<>(SUCCESS, getItemScrapBookRes);
+        } catch(BaseException exception){
+            return new BaseResponse<>((exception.getStatus()), null);
+        }
+
+    }
+
     
 
     

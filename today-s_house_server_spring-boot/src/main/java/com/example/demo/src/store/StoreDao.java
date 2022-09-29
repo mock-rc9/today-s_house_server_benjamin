@@ -259,6 +259,22 @@ public class StoreDao {
                         rs.getString("adUrl"))
                 );
     }
+
+    public List<GetItemScrapBookRes> getItemScrapBook(int userIdx){
+        String getItemScrapBookQuery = "select si.ITEM_ID as id,(select NAME as shopName from SHOP where ID = i.STORE_ID) as shopName, i.NAME as itemName, i.PRICE as price, i.DISCOUNT_RATE as discountRate, (select count(*) from REVIEW as r where ITEM_ID = i.ID group by ITEM_ID) as reviewCnt,(select round(sum(STAR_RATING)/count(*),1) from REVIEW as r where ITEM_ID = i.ID group by ITEM_ID) as starAvg, i.DELIVERY_FEE as deliveryFee, i.SPECIAL_PRICE as specialPrice from SCRAP_ITEM as si LEFT JOIN ITEM as i on si.ITEM_ID = i.ID where USER_IDX = ? ";
+        return this.jdbcTemplate.query(getItemScrapBookQuery,
+                (rs, rowNum) -> new GetItemScrapBookRes(
+                        rs.getInt("id"),
+                        rs.getString("shopName"),
+                        rs.getString("itemName"),
+                        rs.getInt("price"),
+                        rs.getInt("discountRate"),
+                        rs.getInt("reviewCnt"),
+                        rs.getFloat("starAvg"),
+                        rs.getInt("deliveryFee"),
+                        rs.getInt("specialPrice")),
+                    userIdx);
+    }
     
     /* 
 

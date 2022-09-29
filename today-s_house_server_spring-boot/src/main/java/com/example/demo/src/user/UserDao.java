@@ -92,7 +92,7 @@ public class UserDao {
     }
 
     public User getUserInfo(PostLoginReq postLoginReq){
-        String getPwdQuery = "select USER_IDX, EMAIL, PASSWORD, NICKNAME, MEMBERSHIP_LEVEL, POINTS from USER where EMAIL = ?";
+        String getPwdQuery = "select USER_IDX, EMAIL, PASSWORD, NICKNAME, (select NAME from MEMBERSHIP_LEVEL as ml where ml.ID = USER.LEVEL_ID) as MEMBERSHIP_LEVEL, POINTS from USER where EMAIL = ?";
         String getPwdParams = postLoginReq.getEMAIL();
 
         return this.jdbcTemplate.queryForObject(getPwdQuery,
@@ -199,6 +199,20 @@ public class UserDao {
                         rs.getString("phonenumber"),
                         rs.getInt("basic")),
                     userIdx);
+    }
+
+    public int addPoints(PostAddPointsReq postAddPointsReq){
+        String addPointsQuery = "update USER SET POINTS = POINTS + ? where USER_IDX = ?";
+        Object[] addPointsParams = new Object[]{postAddPointsReq.getPlusPoint(), postAddPointsReq.getUserIdx()};
+        return this.jdbcTemplate.update(addPointsQuery, addPointsParams);
+        
+    }
+
+    public int minusPoints(PostMinusPointsReq postMinusPointsReq){
+        String minusPointsQuery = "update USER SET POINTS = POINTS - ? where USER_IDX = ?";
+        Object[] minusPointsParams = new Object[]{postMinusPointsReq.getMinusPoint(), postMinusPointsReq.getUserIdx()};
+        return this.jdbcTemplate.update(minusPointsQuery, minusPointsParams);
+        
     }
 
 

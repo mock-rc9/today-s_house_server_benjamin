@@ -458,6 +458,80 @@ public class UserController {
 
     }
 
+    /**
+     * 포인트 획득 API
+     * [PATCH] /app/users/plus-point
+     * @return BaseResponse<String>
+     */
+    @ResponseBody
+    @PatchMapping("/plus-point")
+    public BaseResponse<String> addPoints(@RequestBody UserInfo userInfo ){
+        try{
+            //jwt에서 idx 추출.
+            int userIdx = jwtService.getUserIdx();
+
+            PostAddPointsReq postAddPointsReq= new PostAddPointsReq(userIdx, userInfo.getPoints());
+
+            userService.addPoints(postAddPointsReq);
+ 
+            String result = "*포인트를 획득하였습니다*";
+            return new BaseResponse<>(SUCCESS ,result);
+        } catch (BaseException exception){
+            return new BaseResponse<>((exception.getStatus()), null);
+        }
+    }
+
+    /**
+     * 포인트 차감 API
+     * [PATCH] /app/users/minus-point
+     * @return BaseResponse<String>
+     */
+    @ResponseBody
+    @PatchMapping("/minus-point")
+    public BaseResponse<String> minusPoints(@RequestBody UserInfo userInfo ){
+        try{
+            //jwt에서 idx 추출.
+            int userIdx = jwtService.getUserIdx();
+
+            PostMinusPointsReq postMinusPointsReq = new PostMinusPointsReq(userIdx, userInfo.getPoints());
+
+            userService.minusPoints(postMinusPointsReq);
+ 
+            String result = "*포인트를 차감하였습니다*";
+            return new BaseResponse<>(SUCCESS ,result);
+        } catch (BaseException exception){
+            return new BaseResponse<>((exception.getStatus()), null);
+        }
+    }
+
+    /**
+     * 알림 설정 변경 API
+     * [PATCH] /users/:userIdx
+     * @return BaseResponse<String>
+     */
+    /* 
+    @ResponseBody
+    @PatchMapping("/{userIdx}")
+    public BaseResponse<String> modifyUserName(@PathVariable("userIdx") int userIdx, @RequestBody User user){
+        try {
+            //jwt에서 idx 추출.
+            int userIdxByJwt = jwtService.getUserIdx();
+            //userIdx와 접근한 유저가 같은지 확인
+            if(userIdx != userIdxByJwt){
+                return new BaseResponse<>(INVALID_USER_JWT,null);
+            }
+            //같다면 유저네임 변경
+            //PatchUserReq patchUserReq = new PatchUserReq(userIdx,user.getUserName());
+            //userService.modifyUserName(patchUserReq);
+
+            String result = "";
+            return new BaseResponse<>(SUCCESS ,result);
+        } catch (BaseException exception) {
+            return new BaseResponse<>((exception.getStatus()), null);
+        }
+    }
+    */
+
 
 
 }

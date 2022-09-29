@@ -16,6 +16,8 @@ com/example/demo/src/user/model/PatchPwdReq.java
  com.example.demo.src.user.model.PatchPwdReq
 com/example/demo/src/store/model/ScrapItemReq.java
  com.example.demo.src.store.model.ScrapItemReq
+com/example/demo/src/user/model/PostMinusPointsReq.java
+ com.example.demo.src.user.model.PostMinusPointsReq
 com/example/demo/config/BaseResponseStatus.java
  com.example.demo.config.BaseResponseStatus
 com/example/demo/src/store/model/Store.java
@@ -34,6 +36,8 @@ com/example/demo/config/BaseResponse.java
  com.example.demo.config.BaseResponse
 com/example/demo/src/user/model/GetShippingListRes.java
  com.example.demo.src.user.model.GetShippingListRes
+com/example/demo/src/store/model/GetItemScrapBookRes.java
+ com.example.demo.src.store.model.GetItemScrapBookRes
 com/example/demo/src/store/StoreProvider.java
  com.example.demo.src.store.StoreProvider
 com/example/demo/src/user/model/DeleteFollowReq.java
@@ -44,6 +48,8 @@ com/example/demo/src/user/model/UserInfo.java
  com.example.demo.src.user.model.UserInfo
 com/example/demo/src/s3file/model/DeleteObjectReq.java
  com.example.demo.src.s3file.model.DeleteObjectReq
+com/example/demo/src/user/model/PostAddPointsReq.java
+ com.example.demo.src.user.model.PostAddPointsReq
 com/example/demo/src/store/model/GetItemPaymentRes.java
  com.example.demo.src.store.model.GetItemPaymentRes
 com/example/demo/config/BaseException.java
@@ -130,5 +136,7 @@ com/example/demo/utils/JwtService.java
  com.example.demo.utils.JwtService
 com/example/demo/src/user/UserProvider.java
  com.example.demo.src.user.UserProvider
+com/example/demo/src/store/model/User.java
+ com.example.demo.src.store.model.User
 com/example/demo/src/s3file/FileUploadController.java
  com.example.demo.src.s3file.FileUploadController

@@ -104,7 +104,11 @@ public enum BaseResponseStatus {
 
     ADD_SHIPPING_LIST_FAIL(false,4034,"배송지 추가에 실패하였습니다."),
     DELETE_SHIPPING_LIST_FAIL(false,4035,"배송지 삭제에 실패하였습니다."),
-    GET_SHIPPING_LIST_FAIL(false,4036,"배송지 조회에 실패하였습니다.");
+    GET_SHIPPING_LIST_FAIL(false,4036,"배송지 조회에 실패하였습니다."),
+
+    ADD_POINTS_FAIL(false,4037,"포인트를 획득하는데 실패하였습니다."),
+    MINUS_POINTS_FAIL(false,4038,"포인트를 차감하는데 실패하였습니다.");
+
     // 5000 : 필요시 만들어서 쓰세요
     // 6000 : 필요시 만들어서 쓰세요
 

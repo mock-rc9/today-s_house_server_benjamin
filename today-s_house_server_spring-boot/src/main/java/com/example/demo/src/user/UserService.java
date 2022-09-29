@@ -201,6 +201,30 @@ public class UserService {
         }
     }
 
+    public void addPoints(PostAddPointsReq postAddPointsReq) throws BaseException {
+        try{
+            int result = userDao.addPoints(postAddPointsReq);
+            if(result == 0){
+                throw new BaseException(ADD_POINTS_FAIL);
+            }
+        } catch(Exception exception){
+            exception.printStackTrace();
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+    public void minusPoints(PostMinusPointsReq postMinusPointsReq) throws BaseException {
+        try{
+            int result = userDao.minusPoints(postMinusPointsReq);
+            if(result == 0){
+                throw new BaseException(MINUS_POINTS_FAIL);
+            }
+        } catch(Exception exception){
+            exception.printStackTrace();
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
 
 /* 
     public void modifyUserName(PatchUserReq patchUserReq) throws BaseException {

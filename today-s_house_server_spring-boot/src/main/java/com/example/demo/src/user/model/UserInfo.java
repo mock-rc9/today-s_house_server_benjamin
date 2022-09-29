@@ -19,5 +19,8 @@ public class UserInfo {
     private String phonenumber;
     private String address;
     private int shipAddId;
+    private int points;
+    private String MEMBERSHIP_LEVEL;
+
 
 }

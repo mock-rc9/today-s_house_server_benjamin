@@ -145,6 +145,15 @@ public class StoreProvider {
             throw new BaseException(DATABASE_ERROR);
         }
     }
+
+    public List<GetItemScrapBookRes> getItemScrapBook(int userIdx) throws BaseException {
+        try {
+            List<GetItemScrapBookRes> getItemScrapBookRes = storeDao.getItemScrapBook(userIdx);
+            return getItemScrapBookRes;
+        } catch (Exception exception) {
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
     
 
     /* 
