@@ -505,32 +505,74 @@ public class UserController {
     }
 
     /**
-     * 알림 설정 변경 API
-     * [PATCH] /users/:userIdx
+     * 알림 ON API
+     * [POST] /app/users/alarm/on
      * @return BaseResponse<String>
      */
-    /* 
+    
     @ResponseBody
-    @PatchMapping("/{userIdx}")
-    public BaseResponse<String> modifyUserName(@PathVariable("userIdx") int userIdx, @RequestBody User user){
+    @PostMapping("/alarm/on")
+    public BaseResponse<String> postAlarm(@RequestBody UserInfo userInfo){
         try {
             //jwt에서 idx 추출.
             int userIdxByJwt = jwtService.getUserIdx();
-            //userIdx와 접근한 유저가 같은지 확인
-            if(userIdx != userIdxByJwt){
-                return new BaseResponse<>(INVALID_USER_JWT,null);
-            }
-            //같다면 유저네임 변경
-            //PatchUserReq patchUserReq = new PatchUserReq(userIdx,user.getUserName());
-            //userService.modifyUserName(patchUserReq);
+        
+            PostAlarmReq postAlarmReq = new PostAlarmReq(userIdxByJwt, userInfo.getAlarmId());
+            userService.postAlarm(postAlarmReq);
 
-            String result = "";
+            String result = "*알람 ON*";
             return new BaseResponse<>(SUCCESS ,result);
         } catch (BaseException exception) {
             return new BaseResponse<>((exception.getStatus()), null);
         }
     }
-    */
+
+    /**
+     * 알림 OFF API
+     * [DELETE] /app/users/alarm/off
+     * @return BaseResponse<String>
+     */
+    
+    @ResponseBody
+    @DeleteMapping("/alarm/off")
+    public BaseResponse<String> deleteAlarm(@RequestBody UserInfo userInfo){
+        try {
+            //jwt에서 idx 추출.
+            int userIdxByJwt = jwtService.getUserIdx();
+        
+            PostAlarmReq postAlarmReq = new PostAlarmReq(userIdxByJwt, userInfo.getAlarmId());
+            userService.deleteAlarm(postAlarmReq);
+
+            String result = "*알람 OFF*";
+            return new BaseResponse<>(SUCCESS ,result);
+        } catch (BaseException exception) {
+            return new BaseResponse<>((exception.getStatus()), null);
+        }
+    }
+
+     /**
+     * 자동재생 설정 변경 API
+     * [PATCH] /app/users/auto-play
+     * @return BaseResponse<String>
+     */
+    @ResponseBody
+    @PatchMapping("/auto-play")
+    public BaseResponse<String> patchAutoPlay(@RequestBody UserInfo userInfo){
+        try{
+            //jwt에서 idx 추출.
+            int userIdx = jwtService.getUserIdx();
+
+            PatchPalySetReq  patchPalySetReq  = new PatchPalySetReq (userIdx, userInfo.getAutoPlayId());
+
+            userService.patchAutoPlay(patchPalySetReq );
+ 
+            String result = "*자동 재생 설정을 변경하였습니다*";
+            return new BaseResponse<>(SUCCESS ,result);
+        } catch (BaseException exception){
+            return new BaseResponse<>((exception.getStatus()), null);
+        }
+    }
+    
 
 
 

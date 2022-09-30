@@ -12,6 +12,8 @@ com/example/demo/src/user/model/PatchLevelReq.java
  com.example.demo.src.user.model.PatchLevelReq
 com/example/demo/src/user/model/PatchProfileReq.java
  com.example.demo.src.user.model.PatchProfileReq
+com/example/demo/src/user/model/PostAlarmReq.java
+ com.example.demo.src.user.model.PostAlarmReq
 com/example/demo/src/user/model/PatchPwdReq.java
  com.example.demo.src.user.model.PatchPwdReq
 com/example/demo/src/store/model/ScrapItemReq.java
@@ -108,6 +110,8 @@ com/example/demo/src/store/model/GetReviewRes.java
  com.example.demo.src.store.model.GetReviewRes
 com/example/demo/src/user/UserController.java
  com.example.demo.src.user.UserController
+com/example/demo/src/user/model/PatchPalySetReq.java
+ com.example.demo.src.user.model.PatchPalySetReq
 com/example/demo/src/store/model/PatchUserEmailReq.java
  com.example.demo.src.store.model.PatchUserEmailReq
 com/example/demo/src/store/StoreService.java

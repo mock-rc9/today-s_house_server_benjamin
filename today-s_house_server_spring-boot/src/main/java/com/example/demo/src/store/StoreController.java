@@ -511,7 +511,7 @@ public class StoreController {
 
     /**
      * 상품 스크랩북 API
-     * [GET] /app/stores/item/scrap-book
+     * [GET] /app/stores/scrap-book
      * @return BaseResponse<GetStoreHomeRes>
      */
     // Path-variable

@@ -21,6 +21,6 @@ public class UserInfo {
     private int shipAddId;
     private int points;
     private String MEMBERSHIP_LEVEL;
-
-
+    private int alarmId;
+    private int autoPlayId;
 }

@@ -107,7 +107,11 @@ public enum BaseResponseStatus {
     GET_SHIPPING_LIST_FAIL(false,4036,"배송지 조회에 실패하였습니다."),
 
     ADD_POINTS_FAIL(false,4037,"포인트를 획득하는데 실패하였습니다."),
-    MINUS_POINTS_FAIL(false,4038,"포인트를 차감하는데 실패하였습니다.");
+    MINUS_POINTS_FAIL(false,4038,"포인트를 차감하는데 실패하였습니다."),
+
+    ALARM_SETTING_FAIL(false,4039,"알람설정에 실패하였습니다."),
+
+    AUTO_PLAY_SETTING_FAIL(false,4040,"자동 재생 설정에 실패하였습니다.");
 
     // 5000 : 필요시 만들어서 쓰세요
     // 6000 : 필요시 만들어서 쓰세요

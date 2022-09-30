@@ -215,5 +215,29 @@ public class UserDao {
         
     }
 
+    public int postAlarm(PostAlarmReq postAlarmReq){
+
+        String postAlarmQuery = "insert into USER_NOTIFICATION (USER_IDX, NOTIFICATION_ID) values (?,?)";
+        Object[] postAlarmParams = new Object[]{postAlarmReq.getUserIdx(), postAlarmReq.getAlarmId()};
+
+        return this.jdbcTemplate.update(postAlarmQuery, postAlarmParams);
+    }
+
+    public int deleteAlarm(PostAlarmReq postAlarmReq){
+
+        String postAlarmQuery = "delete from USER_NOTIFICATION where USER_IDX = ? and NOTIFICATION_ID = ?";
+        Object[] postAlarmParams = new Object[]{postAlarmReq.getUserIdx(), postAlarmReq.getAlarmId()};
+
+        return this.jdbcTemplate.update(postAlarmQuery, postAlarmParams);
+    }
+
+    public int patchAutoPlay(PatchPalySetReq  patchPalySetReq){
+
+        String patchAutoPlayQuery = "update USER set AUTO_PLAY_ID = ? where USER_IDX =?";
+        Object[] patchAutoPlayParams = new Object[]{patchPalySetReq.getAutoPlayId(), patchPalySetReq.getUserIdx()};
+
+        return this.jdbcTemplate.update(patchAutoPlayQuery, patchAutoPlayParams);
+    }
+
 
 }

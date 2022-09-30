@@ -225,6 +225,42 @@ public class UserService {
         }
     }
 
+    public void postAlarm(PostAlarmReq postAlarmReq) throws BaseException {
+        try{
+            int result = userDao.postAlarm(postAlarmReq);
+            if(result == 0){
+                throw new BaseException(ALARM_SETTING_FAIL);
+            }
+        } catch(Exception exception){
+            exception.printStackTrace();
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+    public void deleteAlarm(PostAlarmReq postAlarmReq) throws BaseException {
+        try{
+            int result = userDao.deleteAlarm(postAlarmReq);
+            if(result == 0){
+                throw new BaseException(ALARM_SETTING_FAIL);
+            }
+        } catch(Exception exception){
+            exception.printStackTrace();
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+    public void patchAutoPlay(PatchPalySetReq  patchPalySetReq) throws BaseException {
+        try{
+            int result = userDao.patchAutoPlay(patchPalySetReq);
+            if(result == 0){
+                throw new BaseException(AUTO_PLAY_SETTING_FAIL);
+            }
+        } catch(Exception exception){
+            exception.printStackTrace();
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
 
 /* 
     public void modifyUserName(PatchUserReq patchUserReq) throws BaseException {
