@@ -10,6 +10,5 @@ import lombok.Setter;
 
 public class PatchLevelReq {
     private int userIdx;
-    private String level;
     
 }

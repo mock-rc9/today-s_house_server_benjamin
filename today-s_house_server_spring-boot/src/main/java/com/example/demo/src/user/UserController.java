@@ -238,9 +238,12 @@ public class UserController {
     // Path-variable
     @ResponseBody
     @PatchMapping("/levelUp")
-    public BaseResponse<String> levelUp(@RequestBody PatchLevelReq patchLevelReq){
+    public BaseResponse<String> levelUp(){
         try {
-            userService.levelUp(patchLevelReq);
+
+            //jwt에서 idx 추출.
+            int userIdxByJwt = jwtService.getUserIdx();
+            userService.levelUp(userIdxByJwt);
  
             String result = "*회원등급을 VIP로 업그레이드하였습니다*";
             return new BaseResponse<>(SUCCESS ,result);
@@ -257,9 +260,11 @@ public class UserController {
     // Path-variable
     @ResponseBody
     @PatchMapping("/levelDown")
-    public BaseResponse<String> levelDown(@RequestBody PatchLevelReq patchLevelReq){
+    public BaseResponse<String> levelDown(){
         try {
-            userService.levelDown(patchLevelReq);
+            //jwt에서 idx 추출.
+            int userIdx = jwtService.getUserIdx();
+            userService.levelDown(userIdx);
  
             String result = "*회원등급을 WELCOME으로 다운그레이드하였습니다*";
             return new BaseResponse<>(SUCCESS ,result);

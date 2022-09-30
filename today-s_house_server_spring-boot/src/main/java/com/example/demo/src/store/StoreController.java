@@ -491,7 +491,7 @@ public class StoreController {
     }
 
     /**
-     * 스토어 홈 광고 불러오기 API
+     * 스토어 홈 광고 조회 API
      * [GET] /app/stores/home/ad
      * @return BaseResponse<GetStoreHomeRes>
      */

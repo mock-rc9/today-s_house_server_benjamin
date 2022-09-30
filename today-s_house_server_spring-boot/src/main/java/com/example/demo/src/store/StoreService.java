@@ -39,7 +39,7 @@ public class StoreService {
                 throw new BaseException(MODIFY_FAIL_USER_NICKNAME);
             }
         } catch(Exception exception){
-            //exception.printStackTrace();
+            exception.printStackTrace();
             throw new BaseException(DATABASE_ERROR);
         }
     }
@@ -51,7 +51,7 @@ public class StoreService {
                 throw new BaseException(MODIFY_FAIL_USER_EMAIL);
             }
         } catch(Exception exception){
-            //exception.printStackTrace();
+            exception.printStackTrace();
             throw new BaseException(DATABASE_ERROR);
         }
     }
@@ -63,7 +63,7 @@ public class StoreService {
                 throw new BaseException(MODIFY_FAIL_USER_PHONENUMBER);
             }
         } catch(Exception exception){
-            //exception.printStackTrace();
+            exception.printStackTrace();
             throw new BaseException(DATABASE_ERROR);
         }
     }
@@ -75,7 +75,7 @@ public class StoreService {
                 throw new BaseException(ADD_BASKET_FAIL);
             }
         } catch(Exception exception){
-            //exception.printStackTrace();
+            exception.printStackTrace();
             throw new BaseException(DATABASE_ERROR);
         }
     }
@@ -87,7 +87,7 @@ public class StoreService {
                 throw new BaseException(DELETE_BASKET_FAIL);
             }
         } catch(Exception exception){
-            //exception.printStackTrace();
+            exception.printStackTrace();
             throw new BaseException(DATABASE_ERROR);
         }
     }
@@ -99,7 +99,7 @@ public class StoreService {
                 throw new BaseException(ADD_REVIEW_FAIL);
             }
         } catch(Exception exception){
-            //exception.printStackTrace();
+            exception.printStackTrace();
             throw new BaseException(DATABASE_ERROR);
         }
     }
@@ -123,7 +123,7 @@ public class StoreService {
                 throw new BaseException(ADD_SCRAP_FAIL);
             }
         } catch(Exception exception){
-            //exception.printStackTrace();
+            exception.printStackTrace();
             throw new BaseException(DATABASE_ERROR);
         }
     }
@@ -147,7 +147,7 @@ public class StoreService {
                 throw new BaseException(MODIFY_FAIL_REVIEW);
             }
         } catch(Exception exception){
-            //exception.printStackTrace();
+            exception.printStackTrace();
             throw new BaseException(DATABASE_ERROR);
         }
     }

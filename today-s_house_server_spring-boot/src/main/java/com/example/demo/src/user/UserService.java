@@ -92,31 +92,31 @@ public class UserService {
                 throw new BaseException(MODIFY_FAIL_PROFILE);
             }
         } catch(Exception exception){
-            //exception.printStackTrace();
+            exception.printStackTrace();
             throw new BaseException(DATABASE_ERROR);
         }
     }
 
-    public void levelUp(PatchLevelReq patchLevelReq) throws BaseException {
+    public void levelUp(int userIdx) throws BaseException {
         try{
-            int result = userDao.levelUp(patchLevelReq);
+            int result = userDao.levelUp(userIdx);
             if(result == 0){
                 throw new BaseException(MODIFY_FAIL_LEVEL);
             }
         } catch(Exception exception){
-            //exception.printStackTrace();
+            exception.printStackTrace();
             throw new BaseException(DATABASE_ERROR);
         }
     }
 
-    public void levelDown(PatchLevelReq patchLevelReq) throws BaseException {
+    public void levelDown(int userIdx) throws BaseException {
         try{
-            int result = userDao.levelDown(patchLevelReq);
+            int result = userDao.levelDown(userIdx);
             if(result == 0){
                 throw new BaseException(MODIFY_FAIL_LEVEL);
             }
         } catch(Exception exception){
-            //exception.printStackTrace();
+            exception.printStackTrace();
             throw new BaseException(DATABASE_ERROR);
         }
     }
@@ -127,7 +127,7 @@ public class UserService {
                 throw new BaseException(MODIFY_FAIL_BACKGROUNDIMAGE);
             }
         } catch(Exception exception){
-            //exception.printStackTrace();
+            exception.printStackTrace();
             throw new BaseException(DATABASE_ERROR);
         }
     }
@@ -139,7 +139,7 @@ public class UserService {
                 throw new BaseException(MODIFY_FAIL_MYURL);
             }
         } catch(Exception exception){
-            //exception.printStackTrace();
+            exception.printStackTrace();
             throw new BaseException(DATABASE_ERROR);
         }
     }
@@ -151,7 +151,7 @@ public class UserService {
                 throw new BaseException(MODIFY_FAIL_INTRODUCTION);
             }
         } catch(Exception exception){
-            //exception.printStackTrace();
+            exception.printStackTrace();
             throw new BaseException(DATABASE_ERROR);
         }
     }
@@ -172,7 +172,7 @@ public class UserService {
                 throw new BaseException(MODIFY_FAIL_PASSWORD);
             }
         } catch(Exception exception){
-            //exception.printStackTrace();
+            exception.printStackTrace();
             throw new BaseException(DATABASE_ERROR);
         }
     }

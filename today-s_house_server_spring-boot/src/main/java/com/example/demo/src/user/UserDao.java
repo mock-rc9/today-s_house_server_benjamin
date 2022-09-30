@@ -131,16 +131,16 @@ public class UserDao {
         return this.jdbcTemplate.update(modifyProfileQuery,modifyProfileParams);
     }
 
-    public int levelUp(PatchLevelReq patchLevelReq){
-        String levelUpQuery = "update USER set MEMBERSHIP_LEVEL= 2 where USER_IDX = ? ";
-        Object[] levelUpParams = new Object[]{patchLevelReq.getUserIdx()};
+    public int levelUp(int userIdx){
+        String levelUpQuery = "update USER set LEVEL_ID= 2 where USER_IDX = ? ";
+        Object[] levelUpParams = new Object[]{userIdx};
 
         return this.jdbcTemplate.update(levelUpQuery,levelUpParams);
     }
 
-    public int levelDown(PatchLevelReq patchLevelReq){
-        String levelDownQuery = "update USER set MEMBERSHIP_LEVEL= 1 where USER_IDX = ? ";
-        Object[] levelDownParams = new Object[]{patchLevelReq.getUserIdx()};
+    public int levelDown(int userIdx){
+        String levelDownQuery = "update USER set LEVEL_ID= 1 where USER_IDX = ? ";
+        Object[] levelDownParams = new Object[]{userIdx};
 
         return this.jdbcTemplate.update(levelDownQuery,levelDownParams);
     }
